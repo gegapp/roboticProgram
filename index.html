@@ -4,169 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Robotique & Programmation - Accueil</title>
-    
-    <!-- Liens externes vers les bibliothèques -->
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-    <!-- ==================== PARTIE CSS (de votre fichier style.css) ==================== -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: #343a40; margin: 0; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        header { background-color: #ffffff; padding: 15px 0; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 28px; font-weight: 700; color: #4361ee; }
-        .nav-links { display: flex; align-items: center; }
-        .dropdown { position: relative; display: inline-block; }
-        .dropbtn { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 500; color: #495057; background-color: transparent; border: none; cursor: pointer; text-decoration: none; margin-left: 15px; padding: 8px 16px; border-radius: 8px; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
-        .dropbtn i { font-size: 12px; transition: transform 0.3s ease; }
-        .dropbtn:hover, .dropbtn:focus, .dropdown.active .dropbtn { background-color: #4361ee; color: #ffffff; outline: none; }
-        .dropdown.active .dropbtn i { transform: rotate(180deg); }
-        .dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 200px; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; margin-top: 10px; border: 1px solid #f1f1f1; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; }
-        .dropdown-content.show { display: block; opacity: 1; visibility: visible; transform: translateY(0); }
-        .dropdown-content a { color: #343a40; padding: 12px 16px; text-decoration: none; display: block; font-size: 15px; transition: background-color 0.2s ease; }
-        .dropdown-content a:hover { background-color: #f1f3f5; }
-        .hamburger-menu { display: none; font-size: 24px; cursor: pointer; color: #343a40; }
-        .hero { background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); color: #ffffff; padding: 100px 0; text-align: center; }
-        .hero h1 { font-size: 52px; font-weight: 700; margin-bottom: 15px; }
-        .hero p { font-size: 20px; max-width: 700px; margin: 0 auto 30px auto; opacity: 0.9; }
-        .cta-button { font-size: 18px; font-weight: 600; color: #4361ee; background-color: #ffffff; padding: 15px 35px; border-radius: 50px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: none; cursor: pointer; }
-        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-        section { padding: 80px 0; }
-        .section-title { text-align: center; font-size: 38px; font-weight: 600; margin-bottom: 15px; color: #343a40; }
-        .section-subtitle { text-align: center; font-size: 18px; color: #6c757d; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .about-card { background: #fff; padding: 30px; border-radius: 12px; text-align: center; border: 1px solid #e9ecef; transition: all 0.3s ease; }
-        .about-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .about-icon { font-size: 48px; margin-bottom: 15px; color: #4361ee; }
-        .about-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 10px; }
-        #activities { background-color: #f8f9fa; }
-        .activities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
-        .activity-card { background: #fff; padding: 25px; border-radius: 12px; display: flex; align-items: center; gap: 20px; border: 1px solid #e9ecef; }
-        .activity-icon { font-size: 24px; padding: 15px; border-radius: 50%; display: inline-flex; color: #fff; flex-shrink: 0; }
-        .scratch { background-color: #ff9f43; } .arduino { background-color: #00b894; } .mblock { background-color: #6c5ce7; } .appinventor { background-color: #ff7675; } .python { background-color: #0984e3; } .photoshop { background-color: #00cec9; } .unity { background-color: #2d3436; }
-        .activity-card h4 { margin: 0; font-size: 18px; font-weight: 500; }
-        .programs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .program-card { background: #fff; border-radius: 12px; padding: 35px; border: 1px solid #e9ecef; transition: all 0.3s ease; }
-        .program-card:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: #4361ee; }
-        .program-card .level-tag { font-size: 14px; font-weight: 600; padding: 5px 12px; border-radius: 50px; display: inline-block; margin-bottom: 15px; }
-        .level-1 { background-color: #cce5ff; color: #004085; } .level-2 { background-color: #d4edda; color: #155724; }
-        .level-3 { background-color: #fff3cd; color: #856404; } .level-4 { background-color: #f8d7da; color: #721c24; }
-        .level-5 { background-color: #e2d9f3; color: #4b0082; } .level-6 { background-color: #d1ecf1; color: #0c5460; }
-        .program-card h3 { font-size: 26px; margin-top: 0; margin-bottom: 10px; }
-        .program-card p { margin: 0; line-height: 1.6; }
-        #testimonials { background-color: #4361ee10; }
-        .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .testimonial-card { background-color: #fff; padding: 30px; border-radius: 12px; border-left: 5px solid #4361ee; }
-        .testimonial-author { font-weight: 600; margin-top: 15px; text-align: right; color: #4361ee; }
-        #faq { background-color: #ffffff; }
-        .faq-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 800px; margin: 0 auto; }
-        .faq-item { background-color: #f8f9fa; padding: 20px; border-radius: 12px; }
-        .faq-item h4 { margin: 0 0 10px 0; font-size: 18px; }
-        #contact { background-color: #f8f9fa; }
-        .contact-form { max-width: 700px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #ced4da; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 16px; box-sizing: border-box; }
-        .contact-form textarea { resize: vertical; margin-bottom: 20px; }
-        .contact-form button { width: 100%; }
-        footer { background-color: #343a40; color: #adb5bd; text-align: center; padding: 30px 0; }
-        @media (max-width: 992px) { .programs-grid, .testimonials-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; width: 100%; background-color: #fff; position: absolute; top: 73px; left: 0; padding: 10px 0; box-shadow: 0 10px 10px rgba(0,0,0,0.05); }
-            .nav-links.active { display: flex; }
-            .hamburger-menu { display: block; }
-            .dropdown { width: 100%; text-align: center; }
-            .dropbtn { width: 100%; margin-left: 0; justify-content: center; }
-            .dropdown-content { position: static; box-shadow: none; border: none; background-color: #f8f9fa; display: none !important; opacity: 1; visibility: visible; transform: none; }
-            .dropdown.active .dropdown-content { display: block !important; }
-            .hero h1 { font-size: 40px; }
-            .form-group { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
 <body>
+
     <header>
         <div class="container">
             <div class="navbar">
-                <div class="logo">Club Robotique</div>
+                <div class="logo">Club R&P</div>
                 <nav class="nav-links">
-                    <div class="dropdown"><button class="dropbtn">Niveau 1 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="programme1.html" target="_blank">Scratch 1</a><a href="programme2.html" target="_blank">Scratch 2</a></div></div>
-                    <div class="dropdown"><button class="dropbtn">Niveau 2 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="programme3.html" target="_blank">Scratch 3</a><a href="programme4.html" target="_blank">Scratch 4</a></div></div>
-                    <div class="dropdown"><button class="dropbtn">Niveau 3 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino Part1.html" target="_blank">Arduino Mblock</a><a href="App Inventor Part1.html" target="_blank">App Inventor</a></div></div>
-                    <div class="dropdown"><button class="dropbtn">Niveau 4 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino Part2.html" target="_blank">Arduino Mblock 2</a><a href="App Inventor Part2.html" target="_blank">App Inventor 2</a></div></div>
-                    <div class="dropdown"><button class="dropbtn">Niveau 5 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino IDE p1.html" target="_blank">Arduino C/C++</a><a href="python p1.html" target="_blank">Python</a></div></div>
-                    <div class="dropdown"><button class="dropbtn">Niveau 6 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino IDE p2.html" target="_blank">Arduino C/C++ 2</a><a href="python p2.html" target="_blank">Python 2</a></div></div>
+                    <div class="dropdown"><button class="dropbtn">Niveau 1 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="programme1.html">Scratch 1</a><a href="programme2.html">Scratch 2</a></div></div>
+                    <div class="dropdown"><button class="dropbtn">Niveau 2 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="programme3.html">Scratch 3</a><a href="programme4.html">Scratch 4</a></div></div>
+                    <div class="dropdown"><button class="dropbtn">Niveau 3 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino Part1.html">Arduino Mblock</a><a href="App Inventor Part1.html">App Inventor</a></div></div>
+                    <div class="dropdown"><button class="dropbtn">Niveau 4 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino Part2.html">Arduino Mblock 2</a><a href="App Inventor Part2.html">App Inventor 2</a></div></div>
+                    <div class="dropdown"><button class="dropbtn">Niveau 5 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino IDE p1.html">Arduino C/C++</a><a href="python p1.html">Python</a></div></div>
+                    <div class="dropdown"><button class="dropbtn">Niveau 6 <i class="fas fa-chevron-down"></i></button><div class="dropdown-content"><a href="Arduino IDE p2.html">Arduino C/C++ 2</a><a href="python p2.html">Python 2</a></div></div>
                 </nav>
-                <div class="hamburger-menu"><i class="fas fa-bars"></i></div>
+                <div class="hamburger-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
             </div>
         </div>
     </header>
 
     <main>
-        <!-- Le reste de votre contenu (sections hero, about, etc.) va ici -->
-        <section class="hero"><div class="container" data-aos="fade-up"><h1>Devenez les Créateurs de Demain !</h1><p>Notre club transforme la curiosité de vos enfants en compétences réelles...</p><a href="#contact" class="cta-button">Rejoignez l'Aventure</a></div></section>
-        <section id="about"><div class="container"><h2 class="section-title" data-aos="fade-up">Notre Mission</h2><p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Plus qu'un cours, une aventure...</p><div class="about-grid"><div class="about-card" data-aos="fade-up" data-aos-delay="200"><div class="about-icon"><i class="fas fa-lightbulb"></i></div><h3>Stimuler la Créativité</h3><p>Nous encourageons les enfants à imaginer...</p></div><div class="about-card" data-aos="fade-up" data-aos-delay="300"><div class="about-icon"><i class="fas fa-cogs"></i></div><h3>Développer la Logique</h3><p>À travers le code et l'algorithmique...</p></div><div class="about-card" data-aos="fade-up" data-aos-delay="400"><div class="about-icon"><i class="fas fa-gamepad"></i></div><h3>Apprendre par le Jeu</h3><p>Chaque séance est un projet concret...</p></div></div></div></section>
-        <section id="activities"><div class="container"><h2 class="section-title" data-aos="fade-up">Nos Activités Principales</h2><p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Un éventail d'outils et de langages...</p><div class="activities-grid"><div class="activity-card" data-aos="fade-right"><div class="activity-icon scratch"><i class="fas fa-cat"></i></div><h4>Création de jeux Scratch</h4></div><div class="activity-card" data-aos="fade-right" data-aos-delay="50"><div class="activity-icon arduino"><i class="fas fa-microchip"></i></div><h4>Programmation Arduino</h4></div><div class="activity-card" data-aos="fade-right" data-aos-delay="100"><div class="activity-icon mblock"><i class="fas fa-robot"></i></div><h4>Robotique avec Mblock</h4></div><div class="activity-card" data-aos="fade-right" data-aos-delay="150"><div class="activity-icon appinventor"><i class="fas fa-mobile-alt"></i></div><h4>Apps mobiles</h4></div><div class="activity-card" data-aos="fade-right" data-aos-delay="200"><div class="activity-icon python"><i class="fab fa-python"></i></div><h4>Programmation Python</h4></div><div class="activity-card" data-aos="fade-right" data-aos-delay="250"><div class="activity-icon photoshop"><i class="fas fa-palette"></i></div><h4>Design 2D</h4></div><div class="activity-card" data-aos="fade-right" data-aos-delay="300"><div class="activity-icon unity"><i class="fas fa-cube"></i></div><h4>Jeux vidéo Unity3D</h4></div></div></div></section>
-        <section id="programs"><div class="container"><h2 class="section-title" data-aos="fade-up">Le Parcours d'Apprentissage</h2><p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Six niveaux pour accompagner...</p><div class="programs-grid"><div class="program-card" data-aos="fade-up"><span class="level-tag level-1">Niveau 1</span><h3>Les Fondations Ludiques</h3><p>Introduction à la logique du code avec Scratch...</p></div><div class="program-card" data-aos="fade-up" data-aos-delay="100"><span class="level-tag level-2">Niveau 2</span><h3>Les Premiers Jeux</h3><p>Création de vrais jeux avec Scratch...</p></div><div class="program-card" data-aos="fade-up" data-aos-delay="200"><span class="level-tag level-3">Niveau 3</span><h3>Du Virtuel au Réel</h3><p>Découverte de l'électronique avec Arduino...</p></div><div class="program-card" data-aos="fade-up" data-aos-delay="300"><span class="level-tag level-4">Niveau 4</span><h3>Systèmes Connectés</h3><p>Les projets deviennent plus complexes...</p></div><div class="program-card" data-aos="fade-up" data-aos-delay="400"><span class="level-tag level-5">Niveau 5</span><h3>La Maîtrise du Code</h3><p>Passage à la programmation textuelle...</p></div><div class="program-card" data-aos="fade-up" data-aos-delay="500"><span class="level-tag level-6">Niveau 6</span><h3>L'Ère des Développeurs</h3><p>Création de jeux avec Pygame...</p></div></div></div></section>
-        <section id="testimonials"><div class="container"><h2 class="section-title" data-aos="fade-up">Ce que les Parents en Pensent</h2><p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">La confiance de nos familles...</p><div class="testimonials-grid"><div class="testimonial-card" data-aos="fade-up"><p>"Mon fils a non seulement appris à coder..."</p><div class="testimonial-author">- Maman de Léo, 10 ans</div></div><div class="testimonial-card" data-aos="fade-up" data-aos-delay="150"><p>"L'approche par projet est fantastique..."</p><div class="testimonial-author">- Papa d'Inès, 12 ans</div></div></div></div></section>
-        <section id="faq"><div class="container"><h2 class="section-title" data-aos="fade-up">Foire Aux Questions</h2><p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Les réponses aux questions...</p><div class="faq-grid"><div class="faq-item" data-aos="fade-up"><h4>Mon enfant n'a jamais codé, peut-il s'inscrire ?</h4><p>Absolument ! Notre Niveau 1 est spécialement conçu...</p></div><div class="faq-item" data-aos="fade-up" data-aos-delay="100"><h4>Quel matériel faut-il apporter ?</h4><p>Pour la plupart des cours, nous fournissons...</p></div><div class="faq-item" data-aos="fade-up" data-aos-delay="200"><h4>Quelle est la taille des groupes ?</h4><p>Nous privilégions les petits groupes...</p></div></div></div></section>
-        <section id="contact"><div class="container"><h2 class="section-title" data-aos="fade-up">Prêt(e) à Commencer l'Aventure ?</h2><p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Remplissez ce formulaire...</p><form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="200"><div class="form-group"><input type="text" name="Nom du Parent" placeholder="Nom du Parent" required><input type="text" name="Nom de l'Enfant" placeholder="Prénom de l'Enfant" required></div><div class="form-group"><input type="email" name="Email" placeholder="Votre Adresse E-mail" required><input type="tel" name="Téléphone" placeholder="Votre Numéro de Téléphone"></div><textarea name="Message" placeholder="Votre message ou question..." rows="5"></textarea><button type="submit" class="cta-button">Envoyer le Message</button></form></div></section>
+        <section class="hero">
+            <div class="container" data-aos="fade-up">
+                <h1>Devenez les Créateurs de Demain !</h1>
+                <p>Notre club transforme la curiosité de vos enfants en compétences réelles. À travers des projets amusants et concrets, ils apprennent la logique, la créativité et la résolution de problèmes.</p>
+                <a href="#contact" class="cta-button">Rejoignez l'Aventure</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Notre Mission</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Plus qu'un cours, une aventure où chaque enfant devient un inventeur.</p>
+                <div class="about-grid">
+                    <div class="about-card" data-aos="fade-up" data-aos-delay="200"><div class="about-icon"><i class="fas fa-lightbulb"></i></div><h3>Stimuler la Créativité</h3><p>Nous encourageons les enfants à imaginer, concevoir et réaliser leurs propres projets, des jeux vidéo aux objets connectés.</p></div>
+                    <div class="about-card" data-aos="fade-up" data-aos-delay="300"><div class="about-icon"><i class="fas fa-cogs"></i></div><h3>Développer la Logique</h3><p>À travers le code et l'algorithmique, les élèves structurent leur pensée et apprennent à résoudre des problèmes complexes pas à pas.</p></div>
+                    <div class="about-card" data-aos="fade-up" data-aos-delay="400"><div class="about-icon"><i class="fas fa-gamepad"></i></div><h3>Apprendre par le Jeu</h3><p>Chaque séance est un projet concret et amusant. Fini l'ennui, la meilleure façon d'apprendre, c'est en créant !</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="activities">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Nos Activités Principales</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Un éventail d'outils et de langages pour explorer toutes les facettes du numérique.</p>
+                <div class="activities-grid">
+                    <div class="activity-card" data-aos="fade-right"><div class="activity-icon scratch"><i class="fas fa-cat"></i></div><h4>Création de jeux Scratch</h4></div>
+                    <div class="activity-card" data-aos="fade-right" data-aos-delay="50"><div class="activity-icon arduino"><i class="fas fa-microchip"></i></div><h4>Programmation Arduino</h4></div>
+                    <div class="activity-card" data-aos="fade-right" data-aos-delay="100"><div class="activity-icon mblock"><i class="fas fa-robot"></i></div><h4>Robotique avec Mblock</h4></div>
+                    <div class="activity-card" data-aos="fade-right" data-aos-delay="150"><div class="activity-icon appinventor"><i class="fas fa-mobile-alt"></i></div><h4>Apps mobiles</h4></div>
+                    <div class="activity-card" data-aos="fade-right" data-aos-delay="200"><div class="activity-icon python"><i class="fab fa-python"></i></div><h4>Programmation Python</h4></div>
+                    <div class="activity-card" data-aos="fade-right" data-aos-delay="250"><div class="activity-icon photoshop"><i class="fas fa-palette"></i></div><h4>Design 2D</h4></div>
+                    <div class="activity-card" data-aos="fade-right" data-aos-delay="300"><div class="activity-icon unity"><i class="fas fa-cube"></i></div><h4>Jeux vidéo Unity3D</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Le Parcours d'Apprentissage</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Six niveaux pour accompagner votre enfant de la découverte à la maîtrise.</p>
+                <div class="programs-grid">
+                    <div class="program-card" data-aos="fade-up"><span class="level-tag level-1">Niveau 1</span><h3>Les Fondations Ludiques</h3><p>Introduction à la logique du code avec Scratch. Création d'animations et d'histoires interactives.</p></div>
+                    <div class="program-card" data-aos="fade-up" data-aos-delay="100"><span class="level-tag level-2">Niveau 2</span><h3>Les Premiers Jeux</h3><p>Création de vrais jeux avec Scratch. Gestion des scores, des vies et des règles avec les variables et conditions.</p></div>
+                    <div class="program-card" data-aos="fade-up" data-aos-delay="200"><span class="level-tag level-3">Niveau 3</span><h3>Du Virtuel au Réel</h3><p>Découverte de l'électronique avec Arduino (Mblock) et création des premières applications mobiles avec App Inventor.</p></div>
+                    <div class="program-card" data-aos="fade-up" data-aos-delay="300"><span class="level-tag level-4">Niveau 4</span><h3>Systèmes Connectés</h3><p>Les projets deviennent plus complexes. On connecte les applications mobiles aux robots pour créer des systèmes interactifs.</p></div>
+                    <div class="program-card" data-aos="fade-up" data-aos-delay="400"><span class="level-tag level-5">Niveau 5</span><h3>La Maîtrise du Code</h3><p>Passage à la programmation textuelle avec Python et C++ pour Arduino. La puissance des langages professionnels.</p></div>
+                    <div class="program-card" data-aos="fade-up" data-aos-delay="500"><span class="level-tag level-6">Niveau 6</span><h3>L'Ère des Développeurs</h3><p>Création de jeux avec Pygame, interaction avec des API. L'autonomie est totale pour créer des projets d'envergure.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TÉMOIGNAGES (MIS À JOUR) ==================== -->
+        <section id="testimonials">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Ce que les Parents en Pensent</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">La confiance de nos familles est notre plus grande fierté.</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card" data-aos="fade-up"><p>"Zineb a non seulement appris à coder, mais elle a surtout gagné une confiance incroyable en elle. Elle attend chaque séance avec impatience !"</p><div class="testimonial-author">- Samira, maman de Zineb</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"L'approche par projet est fantastique. Ahmed ne voit pas ça comme un cours, mais comme un moment de création. Il est tellement fier de montrer ses jeux."</p><div class="testimonial-author">- Abdellah, papa d'Ahmed</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"Mon fils Aymane était très timide. Le travail en groupe sur les robots l'a vraiment aidé à s'ouvrir et à collaborer. Je suis ravi."</p><div class="testimonial-author">- Père de Aymane, 11 ans</div></div>
+                    <div class="testimonial-card" data-aos="fade-up"><p>"Les cours de Python ont développé la pensée logique de Yassmine. Elle aborde même ses problèmes de maths différemment maintenant."</p><div class="testimonial-author">- Père de Yassmine, 13 ans</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"Achraf a créé sa propre application mobile. À 12 ans ! Je suis bluffée par la qualité de l'enseignement et la pédagogie du club."</p><div class="testimonial-author">- Karima, maman d'Achraf</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"Voir mon fils Hamza s'enthousiasmer pour la résolution de bugs plutôt que de se décourager est la plus belle des réussites. Merci à l'équipe."</p><div class="testimonial-author">- Père de Hamza</div></div>
+                    <div class="testimonial-card" data-aos="fade-up"><p>"Kaoutar a adoré les cours de Scratch. C'est tellement visuel et amusant qu'elle n'a même pas réalisé qu'elle apprenait des concepts de programmation complexes."</p><div class="testimonial-author">- Maman de Kaoutar, 9 ans</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"Une super ambiance et des animateurs passionnés. Yamna a trouvé une nouvelle passion et des amis qui la partagent."</p><div class="testimonial-author">- Maman de Yamna</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"Le passage d'Arduino à Python a été une étape clé. Mon fils voit maintenant comment ses compétences peuvent s'appliquer à de vrais projets informatiques."</p><div class="testimonial-author">- Père d'un élève de Niveau 5</div></div>
+                    <div class="testimonial-card" data-aos="fade-up"><p>"Je recommande ce club à tous les parents. C'est bien plus que de la technique, c'est une école de créativité et de persévérance."</p><div class="testimonial-author">- Samira</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"Les projets sont concrets et le résultat est visible. C'est très motivant pour les enfants de pouvoir dire 'C'est moi qui ai fait ça !'."</p><div class="testimonial-author">- Achraf, papa d'un élève</div></div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"L'organisation est parfaite, la communication avec les parents est claire, et surtout, les enfants sont heureux d'y aller. Que demander de plus ?"</p><div class="testimonial-author">- Maman de Sofia, 12 ans</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Foire Aux Questions</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Les réponses aux questions que vous vous posez le plus souvent.</p>
+                <div class="faq-grid">
+                    <div class="faq-item" data-aos="fade-up"><h4>Mon enfant n'a jamais codé, peut-il s'inscrire ?</h4><p>Absolument ! Notre Niveau 1 est spécialement conçu pour les débutants complets. Aucune expérience n'est requise, juste de la curiosité !</p></div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="100"><h4>Quel matériel faut-il apporter ?</h4><p>Pour la plupart des cours, nous fournissons tout le matériel nécessaire. Pour certains niveaux avancés, avoir son propre ordinateur portable peut être un plus.</p></div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="200"><h4>Quelle est la taille des groupes ?</h4><p>Nous privilégions les petits groupes (8 à 10 enfants maximum) pour garantir un suivi personnalisé et permettre à chaque enfant de poser ses questions.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Prêt(e) à Commencer l'Aventure ?</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Remplissez ce formulaire pour une pré-inscription ou pour toute question. Nous vous recontacterons très vite !</p>
+                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                    <div class="form-group"><input type="text" name="Nom du Parent" placeholder="Nom du Parent" required><input type="text" name="Nom de l'Enfant" placeholder="Prénom de l'Enfant" required></div>
+                    <div class="form-group"><input type="email" name="Email" placeholder="Votre Adresse E-mail" required><input type="tel" name="Téléphone" placeholder="Votre Numéro de Téléphone"></div>
+                    <textarea name="Message" placeholder="Votre message ou question..." rows="5"></textarea>
+                    <button type="submit" class="cta-button">Envoyer le Message</button>
+                </form>
+            </div>
+        </section>
     </main>
-    
+
     <footer><div class="container"><p>© 2025 Club Robotique & Programmation. Tous droits réservés.</p></div></footer>
 
-    <!-- ==================== PARTIE JAVASCRIPT (de votre fichier script.js) ==================== -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const hamburger = document.querySelector('.hamburger-menu');
-            const navLinks = document.querySelector('.nav-links');
-            const dropdowns = document.querySelectorAll('.dropdown');
-
-            // Gère l'ouverture/fermeture du menu mobile au clic sur le hamburger
-            if (hamburger) {
-                hamburger.addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    navLinks.classList.toggle('active');
-                });
-            }
-
-            // Gère les clics sur les boutons des menus déroulants
-            dropdowns.forEach(function(dropdown) {
-                const button = dropdown.querySelector('.dropbtn');
-                button.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    
-                    // Ferme les autres menus déroulants ouverts
-                    dropdowns.forEach(function(otherDropdown) {
-                        if (otherDropdown !== dropdown) {
-                            otherDropdown.classList.remove('active');
-                            otherDropdown.querySelector('.dropdown-content').classList.remove('show');
-                        }
-                    });
-
-                    // Ouvre/Ferme le menu déroulant actuellement cliqué
-                    dropdown.classList.toggle('active');
-                    const content = dropdown.querySelector('.dropdown-content');
-                    content.classList.toggle('show');
-                });
-            });
-
-            // Ferme tous les menus si on clique n'importe où ailleurs sur la page
-            document.addEventListener('click', function() {
-                dropdowns.forEach(function(dropdown) {
-                    dropdown.classList.remove('active');
-                    dropdown.querySelector('.dropdown-content').classList.remove('show');
-                });
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                }
-            });
-        });
-    </script>
+    <script> AOS.init({ duration: 800, once: true }); </script>
+    <script src="script.js"></script>
 </body>
 </html>
