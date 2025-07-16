@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Robotique & Programmation - Accueil</title>
+    
+    <!-- Lien vers le fichier CSS externe -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Liens externes vers les bibliothèques -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- NOUVEAU : Lien vers le CSS de Swiper.js pour le carrousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
 
@@ -81,24 +87,64 @@
             </div>
         </section>
 
-        <!-- ==================== TÉMOIGNAGES (MIS À JOUR) ==================== -->
+        <!-- ==================== TÉMOIGNAGES (NOUVELLE STRUCTURE AVEC SWIPER) ==================== -->
         <section id="testimonials">
             <div class="container">
                 <h2 class="section-title" data-aos="fade-up">Ce que les Parents en Pensent</h2>
                 <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">La confiance de nos familles est notre plus grande fierté.</p>
-                <div class="testimonials-grid">
-                    <div class="testimonial-card" data-aos="fade-up"><p>"Zineb a non seulement appris à coder, mais elle a surtout gagné une confiance incroyable en elle. Elle attend chaque séance avec impatience !"</p><div class="testimonial-author">- Samira, maman de Zineb</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"L'approche par projet est fantastique. Ahmed ne voit pas ça comme un cours, mais comme un moment de création. Il est tellement fier de montrer ses jeux."</p><div class="testimonial-author">- Abdellah, papa d'Ahmed</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"Mon fils Aymane était très timide. Le travail en groupe sur les robots l'a vraiment aidé à s'ouvrir et à collaborer. Je suis ravi."</p><div class="testimonial-author">- Père de Aymane, 11 ans</div></div>
-                    <div class="testimonial-card" data-aos="fade-up"><p>"Les cours de Python ont développé la pensée logique de Yassmine. Elle aborde même ses problèmes de maths différemment maintenant."</p><div class="testimonial-author">- Père de Yassmine, 13 ans</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"Achraf a créé sa propre application mobile. À 12 ans ! Je suis bluffée par la qualité de l'enseignement et la pédagogie du club."</p><div class="testimonial-author">- Karima, maman d'Achraf</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"Voir mon fils Hamza s'enthousiasmer pour la résolution de bugs plutôt que de se décourager est la plus belle des réussites. Merci à l'équipe."</p><div class="testimonial-author">- Père de Hamza</div></div>
-                    <div class="testimonial-card" data-aos="fade-up"><p>"Kaoutar a adoré les cours de Scratch. C'est tellement visuel et amusant qu'elle n'a même pas réalisé qu'elle apprenait des concepts de programmation complexes."</p><div class="testimonial-author">- Maman de Kaoutar, 9 ans</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"Une super ambiance et des animateurs passionnés. Yamna a trouvé une nouvelle passion et des amis qui la partagent."</p><div class="testimonial-author">- Maman de Yamna</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"Le passage d'Arduino à Python a été une étape clé. Mon fils voit maintenant comment ses compétences peuvent s'appliquer à de vrais projets informatiques."</p><div class="testimonial-author">- Père d'un élève de Niveau 5</div></div>
-                    <div class="testimonial-card" data-aos="fade-up"><p>"Je recommande ce club à tous les parents. C'est bien plus que de la technique, c'est une école de créativité et de persévérance."</p><div class="testimonial-author">- Samira</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100"><p>"Les projets sont concrets et le résultat est visible. C'est très motivant pour les enfants de pouvoir dire 'C'est moi qui ai fait ça !'."</p><div class="testimonial-author">- Achraf, papa d'un élève</div></div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200"><p>"L'organisation est parfaite, la communication avec les parents est claire, et surtout, les enfants sont heureux d'y aller. Que demander de plus ?"</p><div class="testimonial-author">- Maman de Sofia, 12 ans</div></div>
+                
+                <!-- Structure du Slider Swiper -->
+                <div class="swiper testimonials-slider" data-aos="fade-up" data-aos-delay="200">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Zineb a non seulement appris à coder, mais elle a surtout gagné une confiance incroyable en elle. Elle attend chaque séance avec impatience !"</p><div class="testimonial-author">- Samira, maman de Zineb</div></div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"L'approche par projet est fantastique. Ahmed ne voit pas ça comme un cours, mais comme un moment de création. Il est tellement fier de montrer ses jeux."</p><div class="testimonial-author">- Abdellah, papa d'Ahmed</div></div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Mon fils Aymane était très timide. Le travail en groupe sur les robots l'a vraiment aidé à s'ouvrir et à collaborer. Je suis ravi."</p><div class="testimonial-author">- Père de Aymane, 11 ans</div></div>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Les cours de Python ont développé la pensée logique de Yassmine. Elle aborde même ses problèmes de maths différemment maintenant."</p><div class="testimonial-author">- Père de Yassmine, 13 ans</div></div>
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Achraf a créé sa propre application mobile. À 12 ans ! Je suis bluffée par la qualité de l'enseignement et la pédagogie du club."</p><div class="testimonial-author">- Karima, maman d'Achraf</div></div>
+                        </div>
+                        <!-- Slide 6 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Voir mon fils Hamza s'enthousiasmer pour la résolution de bugs plutôt que de se décourager est la plus belle des réussites. Merci à l'équipe."</p><div class="testimonial-author">- Père de Hamza</div></div>
+                        </div>
+                        <!-- Slide 7 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Kaoutar a adoré les cours de Scratch. C'est tellement visuel et amusant qu'elle n'a même pas réalisé qu'elle apprenait des concepts complexes."</p><div class="testimonial-author">- Maman de Kaoutar, 9 ans</div></div>
+                        </div>
+                        <!-- Slide 8 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Une super ambiance et des animateurs passionnés. Yamna a trouvé une nouvelle passion et des amis qui la partagent."</p><div class="testimonial-author">- Maman de Yamna</div></div>
+                        </div>
+                        <!-- Slide 9 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Le passage d'Arduino à Python a été une étape clé. Mon fils voit maintenant comment ses compétences peuvent s'appliquer à de vrais projets."</p><div class="testimonial-author">- Père d'un élève de Niveau 5</div></div>
+                        </div>
+                        <!-- Slide 10 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Je recommande ce club à tous les parents. C'est bien plus que de la technique, c'est une école de créativité et de persévérance."</p><div class="testimonial-author">- Samira</div></div>
+                        </div>
+                        <!-- Slide 11 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"Les projets sont concrets et le résultat est visible. C'est très motivant pour les enfants de pouvoir dire 'C'est moi qui ai fait ça !'."</p><div class="testimonial-author">- Achraf, papa d'un élève</div></div>
+                        </div>
+                        <!-- Slide 12 -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card"><p>"L'organisation est parfaite, la communication avec les parents est claire, et surtout, les enfants sont heureux d'y aller. Que demander de plus ?"</p><div class="testimonial-author">- Maman de Sofia, 12 ans</div></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -119,7 +165,7 @@
             <div class="container">
                 <h2 class="section-title" data-aos="fade-up">Prêt(e) à Commencer l'Aventure ?</h2>
                 <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Remplissez ce formulaire pour une pré-inscription ou pour toute question. Nous vous recontacterons très vite !</p>
-                <form action="https://formspree.io/f/xnnzqble" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="200">
                     <div class="form-group"><input type="text" name="Nom du Parent" placeholder="Nom du Parent" required><input type="text" name="Nom de l'Enfant" placeholder="Prénom de l'Enfant" required></div>
                     <div class="form-group"><input type="email" name="Email" placeholder="Votre Adresse E-mail" required><input type="tel" name="Téléphone" placeholder="Votre Numéro de Téléphone"></div>
                     <textarea name="Message" placeholder="Votre message ou question..." rows="5"></textarea>
@@ -131,8 +177,10 @@
 
     <footer><div class="container"><p>© 2025 Club Robotique & Programmation. Tous droits réservés.</p></div></footer>
 
+    <!-- Scripts JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script> AOS.init({ duration: 800, once: true }); </script>
+    <!-- NOUVEAU : Script de Swiper.js pour le carrousel -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
