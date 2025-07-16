@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Arduino IDE (C/C++) - Partie 1 : Les Fondamentaux</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg-color: #ffffff;
+            --text-color: #495057;
+            --border-color: #e9ecef;
+            --main-title-color: #007bff;
+            --main-subtitle-color: #28a745;
+            --project-title-color: #6f42c1;
+            --accent-orange: #fd7e14;
+            --accent-yellow: #ffc107;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .main-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--main-title-color);
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .main-header p {
+            font-size: 1.25rem;
+            color: var(--main-subtitle-color);
+            margin-top: 10px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg-color);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #f1f3f5;
+        }
+
+        .project-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--project-title-color);
+            margin: 0;
+        }
+
+        .section-box {
+            margin-top: 25px;
+        }
+
+        .section-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: #343a40;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .section-box .icon {
+            font-size: 1.5rem;
+        }
+
+        .objective p {
+            background-color: #e7f5ff;
+            border-left: 4px solid var(--main-title-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        .components ul {
+            list-style: none;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-left: 4px solid var(--main-subtitle-color);
+            border-radius: 8px;
+        }
+
+        .components li {
+            margin-bottom: 5px;
+        }
+        
+        .exercises ol {
+            list-style: none;
+            padding: 0;
+            counter-reset: exercise-counter;
+        }
+
+        .exercises li {
+            counter-increment: exercise-counter;
+            margin-bottom: 12px;
+            padding: 10px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .exercises li::before {
+            content: counter(exercise-counter);
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: var(--project-title-color);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #c92a2a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="main-header">
+            <h1>Programme Arduino IDE (C/C++)</h1>
+            <p>Partie 1 : Les Fondamentaux & les Capteurs</p>
+        </header>
+
+        <!-- Projet 1 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">1</div><h3 class="project-title">Introduction au C++ : La LED qui clignote</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Découvrir la structure d'un programme Arduino C++ et maîtriser les commandes de base pour contrôler une sortie numérique.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Breadboard, 1x LED, 1x Résistance 220 ohm, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Identifier les fonctions <code>void setup()</code> et <code>void loop()</code>.</li>
+                <li>Configurer une broche en sortie avec <code>pinMode(pin, OUTPUT);</code></li>
+                <li>Allumer/éteindre la LED avec <code>digitalWrite(pin, HIGH);</code> et <code>LOW</code>.</li>
+                <li>Créer une pause avec <code>delay(1000);</code></li>
+                <li>Écrire le programme "Blink" complet.</li>
+                <li>Modifier la valeur dans <code>delay()</code> pour changer la vitesse.</li>
+                <li>Défi : Créer un effet "battement de cœur".</li>
+            </ol></div>
+        </div>
+        
+        <!-- Projet 2 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">2</div><h3 class="project-title">Feu de circulation niveau 1</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Gérer plusieurs sorties en séquence pour simuler un feu de circulation.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, LEDs (rouge, orange, verte), 3x Résistances 220 ohm, Breadboard, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Définir les broches pour chaque LED avec des variables <code>const int</code>.</li>
+                <li>Configurer les 3 broches en <code>OUTPUT</code> dans <code>setup()</code>.</li>
+                <li>Écrire la séquence logique dans <code>loop()</code>.</li>
+                <li>Programmer la séquence : Vert (5s), Orange (2s), Rouge (5s).</li>
+                <li>Introduire un bouton : lire son état avec <code>digitalRead()</code>.</li>
+                <li>Défi : Si le bouton "passage piéton" est appuyé, accélérer le cycle pour passer au rouge.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 3 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">3</div><h3 class="project-title">Afficheur 7 segments</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Contrôler de multiples sorties pour afficher des chiffres et découvrir les tableaux (arrays).</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Afficheur 7 segments, 7x Résistances, Breadboard, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Mapper les broches Arduino aux segments de l'afficheur.</li>
+                <li>Créer une fonction <code>void afficherChiffre(int chiffre)</code>.</li>
+                <li>Utiliser une structure <code>switch ... case</code> pour afficher chaque chiffre.</li>
+                <li>Programmer un compteur de 0 à 9 en appelant la fonction dans <code>loop()</code>.</li>
+                <li>Créer un compte à rebours de 9 à 0.</li>
+                <li>Défi : Utiliser un tableau (array) pour stocker les états des segments et simplifier le code.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 4 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">4</div><h3 class="project-title">Feu de circulation niveau 2</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Combiner le contrôle des LEDs et de l'afficheur 7 segments pour un système plus complexe.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Afficheur 7 segments, LEDs, Résistances, Breadboard, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Réaliser le montage combiné des LEDs et de l'afficheur.</li>
+                <li>Programmer la séquence des feux pour une route.</li>
+                <li>Utiliser une boucle <code>for</code> pour créer un compte à rebours sur l'afficheur.</li>
+                <li>Synchroniser le compte à rebours avec la durée de chaque feu.</li>
+                <li>Défi : Simuler deux routes avec 6 LEDs au total qui fonctionnent en opposition.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 5 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">5</div><h3 class="project-title">Écran LCD I2C</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Découvrir l'utilisation de bibliothèques (libraries) pour contrôler un écran LCD.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Écran LCD I2C, Breadboard, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Installer la bibliothèque <code>LiquidCrystal_I2C</code> via le gestionnaire.</li>
+                <li>Inclure la bibliothèque avec <code>#include <LiquidCrystal_I2C.h></code>.</li>
+                <li>Créer un objet LCD : <code>LiquidCrystal_I2C lcd(0x27, 16, 2);</code></li>
+                <li>Initialiser l'écran dans <code>setup()</code> avec <code>lcd.init();</code> et <code>lcd.backlight();</code></li>
+                <li>Afficher un message avec <code>lcd.print("Bonjour !");</code></li>
+                <li>Changer la position avec <code>lcd.setCursor(col, row);</code></li>
+                <li>Défi : Créer un texte qui défile.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 6 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">6</div><h3 class="project-title">Montre Numérique sur LCD</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Créer une montre simple et découvrir la fonction <code>millis()</code> pour gérer le temps sans bloquer le code.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Écran LCD I2C, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Créer des variables <code>int</code> pour les heures, minutes et secondes.</li>
+                <li>Apprendre à utiliser <code>millis()</code> pour compter le temps qui passe.</li>
+                <li>Écrire une condition <code>if</code> pour incrémenter les secondes toutes les 1000ms.</li>
+                <li>Gérer le passage des secondes aux minutes, et des minutes aux heures.</li>
+                <li>Afficher l'heure au format HH:MM:SS sur le LCD.</li>
+                <li>Défi : Ajouter des boutons pour régler l'heure manuellement.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 7 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">7</div><h3 class="project-title">Tableau de multiplication sur LCD</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Maîtriser les boucles <code>for</code> pour générer et afficher du contenu de manière répétitive.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Écran LCD I2C, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Utiliser une boucle <code>for (int i=1; i<=10; i++)</code> pour afficher la table du 5.</li>
+                <li>Afficher chaque ligne au format : "5 x i = résultat".</li>
+                <li>Utiliser <code>lcd.clear()</code> et <code>delay()</code> pour afficher les tables les unes après les autres.</li>
+                <li>Défi : Utiliser une boucle dans une boucle (nested loop) pour afficher toutes les tables de 1 à 10.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 8 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">8</div><h3 class="project-title">Quiz de maths sur LCD</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Générer des problèmes aléatoires et interagir avec l'utilisateur via le Moniteur Série.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Écran LCD I2C, Câbles, Moniteur Série</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Utiliser <code>random(min, max)</code> pour générer deux nombres aléatoires.</li>
+                <li>Afficher une question de calcul sur le LCD (ex: "7 + 5 = ?").</li>
+                <li>Ouvrir la communication avec <code>Serial.begin(9600);</code></li>
+                <li>Attendre une réponse de l'utilisateur sur le Moniteur Série avec <code>Serial.parseInt()</code>.</li>
+                <li>Comparer la réponse avec le bon résultat et afficher "Bravo!" ou "Perdu!".</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 9 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">9</div><h3 class="project-title">Servo-moteur et Contrôle de Position</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Utiliser une bibliothèque pour contrôler la position précise d'un servo-moteur.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Servo-moteur, LEDs, Résistances, Breadboard, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Inclure <code>Servo.h</code> et créer un objet <code>Servo monServo;</code></li>
+                <li>Attacher le servo à une broche dans <code>setup()</code> avec <code>monServo.attach(9);</code></li>
+                <li>Commander une position avec <code>monServo.write(angle);</code> (0, 90, 180).</li>
+                <li>Utiliser une boucle <code>for</code> pour créer un mouvement de balayage fluide.</li>
+                <li>Défi : Contrôler le servo avec un potentiomètre (<code>analogRead()</code> et <code>map()</code>).</li>
+            </ol></div>
+        </div>
+        
+        <!-- Projet 10 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">10</div><h3 class="project-title">Détecteur de Distance - Règle numérique</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Programmer la séquence d'un capteur à ultrasons et convertir le temps de vol en distance.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur Ultrason HC-SR04, Câbles, Moniteur Série</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Configurer les broches <code>trig</code> (OUTPUT) et <code>echo</code> (INPUT).</li>
+                <li>Envoyer une impulsion sur <code>trig</code> (HIGH pendant 10 microsecondes).</li>
+                <li>Mesurer la durée de retour sur <code>echo</code> avec <code>pulseIn(echoPin, HIGH);</code></li>
+                <li>Appliquer la formule : <code>distance = duree * 0.034 / 2;</code></li>
+                <li>Afficher la distance sur le Moniteur Série.</li>
+                <li>Ajouter un <code>if</code> pour allumer une LED si la distance est inférieure à 20 cm.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 11 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">11</div><h3 class="project-title">Machine de mesure de la taille</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Adapter le capteur de distance pour créer un système de mesure de la taille.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur Ultrason, Câbles, Écran LCD (optionnel)</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Comprendre la logique : Taille = Hauteur Totale du Capteur - Distance Mesurée.</li>
+                <li>Définir la hauteur du capteur avec <code>const float HAUTEUR_CAPTEUR = 200.0;</code></li>
+                <li>Calculer la taille de la personne en utilisant cette formule.</li>
+                <li>Afficher le résultat sur le Moniteur Série ou un LCD.</li>
+                <li>Défi : Ajouter un bouton pour "figer" la mesure à l'écran.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 12 -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">12</div><h3 class="project-title">Parking Intelligent</h3>
+            </div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Intégrer plusieurs composants (capteur, actionneur, afficheur) pour créer un premier système automatisé complet.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur Ultrason, Servo-moteur, LCD I2C, LEDs, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Structurer le code en combinant les programmes du servo, de l'ultrason et du LCD.</li>
+                <li>Programmer la détection de véhicule (si distance < 10cm).</li>
+                <li>Si un véhicule est détecté, ouvrir la barrière (servo) et afficher "Bienvenue" sur le LCD.</li>
+                <li>Après quelques secondes, refermer la barrière.</li>
+                <li>Défi : Ajouter un compteur de places et afficher le nombre de places libres sur le LCD.</li>
+            </ol></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

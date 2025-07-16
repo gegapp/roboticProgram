@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme App Inventor - Partie 1 : Applications Mobiles</title>
+    <style>
+        /* --- Importation d'une police ludique --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap');
+
+        /* --- Styles Généraux --- */
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fdf6e3; /* Crème très clair (Solarized Light) */
+            color: #586e75; /* Gris-bleu doux */
+            margin: 0;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- En-tête du Niveau --- */
+        .level-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .level-header h1 {
+            font-size: 48px;
+            font-weight: 600;
+            color: #d33682; /* Magenta vif */
+            margin-bottom: 5px;
+            text-shadow: 2px 2px #fdf6e3;
+        }
+
+        .level-header p {
+            font-size: 20px;
+            color: #657b83; /* Gris-bleu plus foncé */
+        }
+
+        /* --- Carte de Projet --- */
+        .project-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            border: 2px solid #eee;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .project-number {
+            font-size: 30px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #fd7e14, #ffb14e); /* Dégradé Orange */
+            border-radius: 12px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #268bd2; /* Bleu vif */
+            margin: 0;
+        }
+
+        .project-description {
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #657b83;
+        }
+        
+        .project-objective {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3; /* Bleu Google */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .project-objective strong {
+             color: #1565c0;
+             font-weight: 600;
+             display: flex;
+             align-items: center;
+             font-size: 18px;
+        }
+
+        .project-objective strong::before {
+            content: '🎯';
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .project-objective ul {
+            padding-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .project-plan h4 {
+            font-size: 20px;
+            color: #cb4b16; /* Orange foncé */
+            margin-bottom: 15px;
+        }
+        
+        .project-plan ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-plan li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Bouton de Tâche Interactif --- */
+        .task-button {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: #076678; /* Cyan foncé */
+            background-color: #f3f9fb;
+            border: 2px solid #d0e8f0;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 80%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-button:hover {
+            background-color: #e1f2f8;
+            border-color: #a6d9e9;
+            transform: translateX(5px);
+        }
+        
+        .task-time {
+            color: #859900; /* Vert olive */
+            font-weight: 600;
+        }
+
+        /* --- Panneau d'information sur la droite --- */
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 300px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 3px solid #ffc107; /* Jaune Ambre */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        #info-panel h4 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #c62828; /* Rouge foncé */
+            border-bottom: 2px solid #ffe082;
+            padding-bottom: 10px;
+        }
+
+        #info-panel p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .info-panel-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) translateX(20px);
+        }
+
+        .info-panel-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        @media (max-width: 1100px) {
+            #info-panel {
+                display: none;
+            }
+        }
+        
+        @media print {
+            body { display: block; background-color: white; }
+            .project-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc;}
+            #info-panel { display: none; }
+            .task-button, .task-button:hover {
+                background-color: #f0f0f0;
+                border-color: #ddd;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="level-header">
+            <h1>Module Créateur App Inventor</h1>
+            <p>Partie 1 : Les Fondamentaux de l'Application Mobile</p>
+        </div>
+
+        <!-- Projet 1 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">1</div><h3 class="project-title">Le Créateur de Leçons</h3></div>
+            <p class="project-description">Crée une application qui fonctionne comme un mini-livre digital, pour présenter une leçon sur le sujet de ton choix avec du texte et des images.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Maîtriser les composants `Button`, `Label`, `Image` et les `Layouts`.</li><li>Simuler plusieurs écrans en cachant/montrant des blocs.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On discute ensemble : comment une app peut-elle nous apprendre quelque chose ? On dessine la maquette de notre livre digital avec des pages et des boutons 'Suivant'.">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="L'animateur présente le concept des 'VerticalArrangements' comme des boîtes qu'on peut cacher et montrer pour simuler des pages. On définit la logique des boutons.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On construit l'application : 3 'boîtes' (Accueil, Leçon, Image) avec leurs textes et boutons. On programme les blocs pour naviguer entre elles.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter une 4ème page 'Quiz' pour poser une question sur la leçon. Personnalisation : Choisis tes propres images et couleurs pour rendre ta leçon unique !">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Quelques élèves présentent leur leçon interactive et le sujet qu'ils ont choisi.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 2 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">2</div><h3 class="project-title">Le Piano de Poche</h3></div>
+            <p class="project-description">Transforme ton smartphone en un mini-piano fonctionnel. Chaque touche jouera une note de musique, te permettant de composer de petites mélodies.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Utiliser le composant `Sound` et importer des fichiers audio.</li><li>Organiser l'interface avec précision grâce aux `Layouts`.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On écoute le son d'une gamme de piano. De quoi a-t-on besoin pour créer notre piano ? De 7 touches blanches, chacune jouant une note.">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On découvre comment importer des fichiers audio (do.mp3, re.mp3...) et comment utiliser le composant `Sound` pour les jouer.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On crée l'interface avec 7 boutons pour les touches blanches. Dans les blocs, on programme chaque bouton pour jouer le son de la note correspondante.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter les touches noires (dièses) ! Défi Avancé : Ajouter un bouton pour enregistrer et rejouer une mélodie.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Mini-concert ! On essaie de jouer une mélodie simple comme 'Au clair de la lune'.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 3 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">3</div><h3 class="project-title">Sagesse Quotidienne (Coran)</h3></div>
+            <p class="project-description">Une application respectueuse qui affiche une courte sourate ou un verset du Coran au hasard, avec sa traduction et une lecture audio.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Maîtriser les `Listes` pour stocker du texte.</li><li>Utiliser le bloc `pick a random item` pour générer de l'aléatoire.</li><li>Intégrer le `Player` et `TextToSpeech`.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On discute des applications qui donnent une 'citation du jour'. On imagine une app qui ferait la même chose avec une sagesse issue du Coran.">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="L'animateur présente les 'listes parallèles' : une liste pour les noms des sourates, une pour leur traduction, une pour les fichiers audio.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On crée les listes et on les remplit. On programme le bouton 'Nouvelle sourate' pour qu'il choisisse un numéro au hasard et affiche les infos correspondantes.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter un bouton qui utilise `TextToSpeech` pour lire la traduction à voix haute. Défi Avancé : Ajouter un bouton 'Partager' pour envoyer le verset à un ami.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Chaque élève montre son application et la sourate qui a été choisie au hasard par son programme.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 4 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">4</div><h3 class="project-title">Convertisseur d'Unités</h3></div>
+            <p class="project-description">Construis un outil pratique pour convertir instantanément des unités de mesure (mètres en cm, kg en g...).</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Manipuler les entrées de l'utilisateur (`TextBox`).</li><li>Effectuer des opérations mathématiques simples.</li><li>Afficher un résultat formaté dans un `Label`.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On se pose une question pratique : 'Combien de centimètres dans 2 mètres ?'. Comment une application pourrait-elle faire le calcul pour nous ?">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On schématise la logique : l'utilisateur entre un nombre, clique sur un bouton 'Convertir', l'application multiplie ce nombre par 100 et affiche le résultat.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On crée l'interface avec un `TextBox`, un `Button` et un `Label`. On programme le bloc 'When Button.Click' pour faire le calcul.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter des boutons pour d'autres conversions (m -> mm, kg -> g). Défi Avancé : Créer un deuxième écran pour les conversions de poids.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="On vérifie que nos convertisseurs donnent les bons résultats !">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 5 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">5</div><h3 class="project-title">La Calculatrice</h3></div>
+            <p class="project-description">Crée une calculatrice simple mais fonctionnelle qui peut effectuer les quatre opérations de base (+, -, *, /).</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Utiliser les conditions `if/then/else if`.</li><li>Gérer les `Variables` pour stocker les nombres et le résultat.</li><li>Gérer les cas d'erreur simples.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Comment fonctionne une calculatrice ? On a besoin de deux champs pour les nombres, de boutons pour les opérations et d'un endroit pour afficher le résultat.">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On va utiliser une structure `if/then/else if` pour vérifier sur quel bouton l'utilisateur a cliqué et effectuer la bonne opération mathématique.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On construit l'interface. On programme les 4 boutons d'opération pour qu'ils modifient le `Label` de résultat en fonction des nombres entrés.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Gérer l'erreur de la division par zéro ! Afficher un message d'erreur si l'utilisateur tente de diviser par 0. Ajouter un bouton 'C' pour tout effacer.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="On teste quelques calculs pour s'assurer que notre application est aussi intelligente qu'une vraie calculatrice.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 6 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">6</div><h3 class="project-title">Le Quiz de Maths</h3></div>
+            <p class="project-description">Une application qui génère des questions de calcul mental aléatoires et qui vérifie si la réponse de l'utilisateur est correcte.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Générer des nombres aléatoires.</li><li>Comparer la réponse de l'utilisateur avec le résultat correct.</li><li>Utiliser une variable `score`.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Comment rendre les révisions de maths plus amusantes ? En créant un jeu ! L'app nous posera une question, on répondra, et elle nous dira si on a bon.">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="L'app doit : 1. Générer deux nombres aléatoires. 2. Les afficher. 3. Attendre la réponse de l'utilisateur. 4. La comparer au vrai résultat. 5. Mettre à jour le score.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On programme le bouton 'Nouvelle Question' pour générer et afficher deux nombres. On programme le bouton 'Valider' pour vérifier la réponse et afficher 'Bravo !' ou 'Essaie encore !'.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter une variable 'score' qui augmente à chaque bonne réponse. Afficher le score en permanence. Ajouter des sons pour les bonnes et mauvaises réponses.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Qui obtiendra le meilleur score en 1 minute ? C'est la compétition !">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 7 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">7</div><h3 class="project-title">Jeu du "Plus ou Moins"</h3></div>
+            <p class="project-description">L'application choisit un nombre secret entre 1 et 100. L'utilisateur doit le deviner, et l'app le guide en disant 'C'est plus !' ou 'C'est moins !'.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Utiliser les opérateurs de comparaison (`<`, `>`).</li><li>Gérer une variable 'nombreSecret' et un compteur de tentatives.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On joue une partie 'à l'oral' pour comprendre la logique. Comment l'ordinateur peut-il jouer le rôle de celui qui choisit le nombre ?">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On définit les étapes : 1. Au démarrage, choisir un nombre aléatoire et le stocker dans une variable. 2. Quand l'utilisateur valide, comparer sa proposition à la variable. 3. Afficher la bonne indication.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On programme l'application en suivant la logique définie. On s'assure que les messages 'Plus', 'Moins' et 'Gagné !' s'affichent correctement.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter un compteur de tentatives ! L'utilisateur n'a que 7 essais. S'il échoue, le jeu affiche 'Perdu !' et révèle le nombre secret. Ajouter un bouton 'Rejouer'.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Qui arrivera à gagner le plus rapidement ? On partage nos stratégies.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Le Panneau d'Information qui apparaîtra sur la droite -->
+    <div id="info-panel" class="info-panel-hidden">
+        <!-- Le contenu sera inséré ici par JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoPanel = document.getElementById('info-panel');
+            const taskButtons = document.querySelectorAll('.task-button');
+
+            taskButtons.forEach(button => {
+                // Quand la souris entre sur le bouton
+                button.addEventListener('mouseover', () => {
+                    const description = button.dataset.description;
+                    if (description) {
+                        infoPanel.innerHTML = `<h4>💡 Détail de la tâche</h4><p>${description}</p>`;
+                        infoPanel.classList.remove('info-panel-hidden');
+                        infoPanel.classList.add('info-panel-visible');
+                    }
+                });
+
+                // Quand la souris quitte le bouton
+                button.addEventListener('mouseout', () => {
+                    infoPanel.classList.remove('info-panel-visible');
+                    infoPanel.classList.add('info-panel-hidden');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

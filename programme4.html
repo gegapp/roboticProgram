@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Scratch Interactif - Niveau 4 (Complet)</title>
+    <style>
+        /* --- Importation d'une police moderne --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        /* --- Styles Généraux --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #2d2d2d; /* Fond sombre expert */
+            color: #e0e0e0; /* Texte gris clair */
+            margin: 0;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- En-tête du Niveau --- */
+        .level-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .level-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        
+        .level-header h1 span {
+            color: #ffd700; /* Or */
+        }
+
+        .level-header p {
+            font-size: 20px;
+            color: #b0b0b0; /* Gris moyen */
+        }
+
+        /* --- Carte de Projet --- */
+        .project-card {
+            background: #3c3c3c;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            border: 1px solid #555;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #555;
+            padding-bottom: 15px;
+        }
+
+        .project-number {
+            font-size: 30px;
+            font-weight: 700;
+            color: #2d2d2d;
+            background: linear-gradient(135deg, #ffd700, #ffb300); /* Dégradé Or */
+            border-radius: 12px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #00e5ff; /* Cyan vif */
+            margin: 0;
+        }
+
+        .project-description {
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+        
+        .project-objective {
+            background-color: #424242; /* Gris foncé */
+            border-left: 5px solid #ffd700; /* Or */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .project-objective strong {
+             color: #ffecb3; /* Or pâle */
+             font-weight: 600;
+             display: flex;
+             align-items: center;
+             font-size: 18px;
+        }
+
+        .project-objective strong::before {
+            content: '🏆';
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .project-plan h4 {
+            font-size: 20px;
+            color: #ffab40; /* Orange doré */
+            margin-bottom: 15px;
+        }
+        
+        .project-plan ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-plan li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Bouton de Tâche Interactif --- */
+        .task-button {
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: #e0f7fa; /* Cyan très clair */
+            background-color: #4a4a4a;
+            border: 2px solid #5f5f5f;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 80%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-button:hover {
+            background-color: #5f5f5f;
+            border-color: #00e5ff;
+            transform: translateX(5px);
+        }
+        
+        .task-time {
+            color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        /* --- Panneau d'information sur la droite --- */
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 300px;
+            background: #212121;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 3px solid #00e5ff; /* Cyan vif */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            color: #f5f5f5;
+        }
+        
+        #info-panel h4 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #ffd700; /* Or */
+            border-bottom: 2px solid #555;
+            padding-bottom: 10px;
+        }
+
+        #info-panel p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        .info-panel-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) translateX(20px);
+        }
+
+        .info-panel-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        @media (max-width: 1100px) {
+            #info-panel { display: none; }
+        }
+        
+        @media print {
+            body { background-color: white; color: black; }
+            .container { max-width: 100%; }
+            .project-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; background: white; }
+            .level-header h1, h4, strong, .project-title, .project-description, .task-time { color: black !important; text-shadow: none; }
+            #info-panel { display: none; }
+            .task-button, .task-button:hover {
+                background-color: #f0f0f0;
+                border-color: #ddd;
+                transform: none;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="level-header">
+            <h1>Niveau <span>4</span> : L'Ère des Maîtres du Code</h1>
+            <p>Crée tes propres blocs, des simulations complexes et des jeux riches dignes des pros !</p>
+        </div>
+
+        <!-- Projets 46 à 60 -->
+
+        <!-- Projet 46 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">46</div><h3 class="project-title">Jeu de plateforme - Nv. 2</h3></div>
+            <p class="project-description">Améliore ton jeu de plateforme en y ajoutant des ennemis qui patrouillent, des pièces et des power-ups !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Programmer une IA ennemie simple et structurer son code avec des **blocs personnalisés**.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Regroupe tout ton code de gravité et de collision avec les plateformes dans un seul 'Mon Bloc' pour un code plus propre et facile à lire.">Créer un bloc "Physique"</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée un ennemi qui se déplace dans une direction jusqu'à ce qu'il rencontre un mur ou le vide, puis fait demi-tour automatiquement.">Programmer une IA ennemie</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Crée des clones de pièces. Si le joueur les touche, elles disparaissent et le score augmente. S'il touche un ennemi, il perd une vie.">Gérer les interactions</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un champignon ou une étoile qui, si touchée, rend ton personnage invincible ou lui permet de sauter plus haut pendant un court instant.">Ajouter un power-up</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 47 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">47</div><h3 class="project-title">Jeu de Pong à 4 joueurs</h3></div>
+            <p class="project-description">Une arène de Pong frénétique où 4 joueurs (ou 1 joueur contre 3 IA) s'affrontent.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Maîtriser le clonage pour des éléments de jeu multiples et gérer des logiques d'IA simples.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée une raquette en bas de l'écran, puis utilise le clonage pour en créer trois autres sur les autres côtés de l'écran.">Créer les 4 raquettes</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Programme la raquette du bas pour qu'elle suive la souris. Les autres raquettes doivent suivre la balle sur leur axe pour essayer de la bloquer.">Programmer le joueur et les IA</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="La balle doit rebondir correctement sur les quatre raquettes et non plus sur les bords de l'écran.">Adapter la physique de la balle</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Chaque fois que la balle passe derrière une raquette, le joueur correspondant est éliminé. Le dernier en jeu gagne !">Gérer l'élimination</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 48 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">48</div><h3 class="project-title">Simulation d'un système solaire</h3></div>
+            <p class="project-description">Crée une animation des planètes qui tournent autour du soleil en respectant leurs orbites.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser le bloc `s'orienter vers` pour créer des orbites circulaires parfaites.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Place un gros lutin 'Soleil' au centre de l'écran. C'est le point de référence de toutes les planètes.">Placer le Soleil</button><span class="task-time">10 min</span></li>
+                    <li><button class="task-button" data-description="Crée un lutin 'Terre'. Dans une boucle, fais-le 's'orienter vers [Soleil]', puis 'tourner de 90 degrés' et enfin 'avancer de quelques pas'.">Créer la première orbite</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Duplique la Terre. Place le duplicata plus loin, change sa vitesse et sa couleur pour représenter Mars, Vénus ou une autre planète.">Ajouter d'autres planètes</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Crée un petit lutin 'Lune' qui, au lieu de s'orienter vers le Soleil, s'oriente vers la Terre, créant une orbite dans une orbite.">Défi : Ajouter une lune</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 49 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">49</div><h3 class="project-title">Tir spatial avec un Boss</h3></div>
+            <p class="project-description">Un jeu avec plusieurs vagues d'ennemis, et à la fin, un combat épique contre un boss géant !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Gérer une séquence de jeu (vagues) et programmer une IA de boss avec plusieurs attaques.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée des clones d'ennemis normaux pendant un certain temps. Une fois le temps écoulé ou le score atteint, envoie un message 'VagueFinie'.">Créer les vagues d'ennemis</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Quand le message 'VagueFinie' est reçu, fais apparaître un gros lutin 'Boss' avec une barre de vie (une variable).">Faire apparaître le Boss</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Le boss se déplace lentement et choisit une attaque au hasard toutes les quelques secondes (tirer un gros laser, foncer sur le joueur...).">Programmer les attaques du Boss</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Chaque fois que le joueur touche le boss, sa variable de vie diminue. Quand elle atteint 0, le joueur gagne !">Gérer la vie du Boss</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 50 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">50</div><h3 class="project-title">Générateur de terrain aléatoire</h3></div>
+            <p class="project-description">Programme un jeu de plateforme où le niveau est créé de manière procédurale à chaque nouvelle partie.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser des **listes** pour stocker la structure d'un niveau et le clonage pour le construire.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée une liste et remplis-la avec des codes (ex: 1=sol, 0=vide). Chaque élément de la liste représente une colonne du niveau.">Définir la structure du niveau</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée un script qui parcourt la liste, élément par élément, en utilisant un index et une boucle.">Créer le lecteur de liste</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Selon la valeur lue dans la liste (1 ou 0), le script crée un clone du lutin correspondant ('sol' ou rien) à la bonne position sur l'écran.">Construire le niveau</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Une fois le niveau construit, fais apparaître ton personnage de jeu de plateforme et essaie de le traverser !">Intégrer le joueur</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- ... et ainsi de suite jusqu'au projet 60. -->
+        
+        <!-- Projet 51 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">51</div><h3 class="project-title">Jeu de puzzle basé sur la physique</h3></div>
+            <p class="project-description">Lance une balle pour qu'elle atteigne une cible en rebondissant sur des murs que tu peux placer.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Simuler une physique de rebond réaliste et créer une boucle de jeu "essai-erreur".</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un lutin 'balle' avec des variables 'vitesse x' et 'vitesse y'. Fais-la tomber avec une gravité constante.">Créer la balle physique</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Quand le joueur clique, donne une vitesse initiale à la balle en fonction de la position de la souris.">Programmer le lancer</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Si la balle touche un mur, inverse sa vitesse x ou y pour la faire rebondir de manière réaliste.">Gérer les rebonds</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Place une cible. Si la balle la touche, le niveau est réussi. Crée un bouton 'Recommencer' pour relancer la balle.">Créer un niveau</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 52 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">52</div><h3 class="project-title">Jeu de rôle (RPG) - Exploration</h3></div>
+            <p class="project-description">Crée une carte explorable avec un personnage qui peut se déplacer et parler à d'autres personnages.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Gérer une caméra qui suit le joueur et des dialogues simples avec des PNJ.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un grand lutin pour la carte du monde. Programme ton joueur pour qu'il bouge. Le joueur reste au centre, c'est la carte qui bouge derrière lui !">Créer un monde explorable</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Place des personnages non-joueurs (PNJ) sur la carte.">Ajouter des PNJ</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Si le joueur est proche d'un PNJ et appuie sur Espace, le PNJ dit une phrase avec une bulle de dialogue.">Programmer les dialogues</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute des arbres ou des rochers. Le joueur ne doit pas pouvoir les traverser. C'est une gestion de collision simple.">Ajouter des obstacles</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 53 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">53</div><h3 class="project-title">Effet 3D Anaglyphe</h3></div>
+            <p class="project-description">Crée une illusion de 3D qui fonctionne avec des lunettes rouge/bleu !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Comprendre le principe de la stéréoscopie en dupliquant et filtrant des images.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis un lutin simple, comme une sphère ou un cube.">Créer l'objet 3D</button><span class="task-time">10 min</span></li>
+                    <li><button class="task-button" data-description="Crée un clone du lutin. Ce clone doit toujours être à la même position que l'original, mais légèrement décalé vers la droite.">Dupliquer et décaler</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Applique l'effet 'couleur' sur le lutin original jusqu'à ce qu'il soit rouge. Fais la même chose pour le clone jusqu'à ce qu'il soit bleu/cyan.">Appliquer les filtres de couleur</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Mets des lunettes 3D si tu en as. Fais tourner l'objet sur lui-même. L'effet de profondeur devrait apparaître !">Tester l'effet 3D</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 54 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">54</div><h3 class="project-title">Stratégie au tour par tour</h3></div>
+            <p class="project-description">Crée un jeu où deux armées s'affrontent. Chaque joueur déplace ses unités et attaque à tour de rôle.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Gérer un état de jeu complexe (à qui le tour ?) et une logique de sélection d'unité.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée une variable 'tour' qui vaut 1 ou 2. Crée aussi des clones pour les unités de chaque joueur.">Mettre en place le champ de bataille</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Quand tu cliques sur une de tes unités (et que c'est ton tour), elle est 'sélectionnée'.">Sélectionner une unité</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Une fois sélectionnée, tu peux cliquer sur une case pour la déplacer, ou sur une unité ennemie pour l'attaquer.">Effectuer une action</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Après avoir effectué une action, la variable 'tour' change et c'est à l'autre joueur de jouer.">Passer le tour</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 55 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">55</div><h3 class="project-title">Simulation de propagation</h3></div>
+            <p class="project-description">Simule un feu de forêt ou une épidémie. Regarde comment un phénomène peut se propager à travers une population.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser le clonage pour simuler des systèmes complexes et des interactions émergentes.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée des centaines de clones d'un lutin 'arbre' ou 'personne' pour couvrir la scène.">Créer la population</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Change le costume d'un clone au hasard pour qu'il devienne 'en feu' ou 'malade'. C'est le patient zéro.">Démarrer le phénomène</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Dans une boucle, chaque clone 'malade' vérifie s'il touche un clone 'sain'. Si oui, le clone sain devient malade à son tour.">Programmer la contagion</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute une chance de 'guérir' ou de 's'éteindre' après un certain temps pour rendre la simulation plus réaliste.">Ajouter des conditions</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 56 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">56</div><h3 class="project-title">Jeu multijoueur en ligne</h3></div>
+            <p class="project-description">Crée un jeu simple (morpion, jeu de clic) où deux joueurs peuvent jouer à distance via Internet.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Comprendre et utiliser les **variables Cloud** (partagées en ligne). *Nécessite le statut "Scratcher".*</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Va dans 'Variables' et coche la case 'Variable Cloud' en créant une variable. Elle est maintenant partagée sur les serveurs de Scratch !">Créer une variable Cloud</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Crée 9 cases pour un morpion. Quand un joueur clique sur une case, change une variable Cloud qui représente cette case (ex: 1 pour X, 2 pour O).">Synchroniser le plateau de jeu</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Chaque ordinateur doit constamment lire les variables Cloud et mettre à jour l'apparence du plateau si une valeur a changé.">Mettre à jour l'affichage</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Partage le lien de ton projet avec un ami. Jouez ensemble en même temps pour voir si la synchronisation fonctionne !">Tester en direct</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 57 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">57</div><h3 class="project-title">Aventure "Point and Click"</h3></div>
+            <p class="project-description">Crée une énigme où le joueur doit cliquer sur des objets dans le bon ordre pour la résoudre.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Maîtriser la logique conditionnelle complexe et la gestion d'un inventaire.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Imagine une énigme simple : 'Prendre la clé sous le tapis pour ouvrir le coffre'. Dessine la scène et les objets.">Concevoir l'énigme</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée une variable 'objetSelectionne'. Quand tu cliques sur un objet (la clé), cette variable prend la valeur 'clé'.">Gérer l'inventaire</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Si tu cliques sur le coffre, vérifie si 'objetSelectionne' est égal à 'clé'. Si oui, le coffre s'ouvre.">Utiliser les objets</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute des messages pour guider le joueur : 'C'est fermé.', 'J'ai trouvé une clé !', 'Je ne peux pas utiliser ça ici.'.">Ajouter du feedback</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 58 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">58</div><h3 class="project-title">Jeu "bac à sable" (Sandbox)</h3></div>
+            <p class="project-description">Crée un jeu où le joueur peut sélectionner différents types de blocs pour construire ce qu'il veut dans un monde 2D.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Combiner une interface utilisateur (sélection de bloc) et un système de placement par grille.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée des boutons pour chaque type de bloc (terre, pierre, bois). Quand on clique, une variable 'blocActif' change.">Créer l'interface de sélection</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Fais en sorte que la souris se 'colle' à une grille invisible. Utilise l'arrondi et la multiplication pour y arriver.">Mettre en place la grille</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Quand le joueur clique sur la grille, le jeu crée un clone du bloc correspondant à la variable 'blocActif' à la position de la souris.">Placer les blocs</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute une gomme ou une touche pour supprimer le clone sur lequel la souris se trouve.">Ajouter un mode suppression</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 59 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">59</div><h3 class="project-title">Recréer un jeu d'arcade</h3></div>
+            <p class="project-description">Choisis un jeu classique comme Breakout (casse-briques) et recrée-le avec tes propres améliorations.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Mettre en pratique toutes les compétences acquises en analysant et recréant une mécanique de jeu existante.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Prends le jeu de Pong comme base (raquette, balle). Change la raquette en une palette et ajoute des clones de briques en haut.">Adapter la base de Pong</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Si la balle touche une brique, la brique se supprime et le score augmente.">Programmer la destruction des briques</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Quand une brique est détruite, elle a une petite chance de faire tomber un clone de 'power-up' (palette plus grande, balle plus lente...).">Ajouter des bonus/malus</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Si toutes les briques sont détruites, le joueur gagne le niveau. Tu peux même créer plusieurs niveaux !">Gérer la condition de victoire</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 60 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">60</div><h3 class="project-title">Projet Final Libre</h3></div>
+            <p class="project-description">L'heure de gloire ! Imagine, conçois et programme ton propre jeu en utilisant toutes les notions que tu as apprises.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Démontrer sa créativité et sa maîtrise technique en menant un projet de A à Z.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Sur une feuille, écris le concept de ton jeu, ses règles, ses personnages. Fais un dessin rapide de ce à quoi il ressemblera.">Phase de Conception (Game Design)</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Concentre-toi sur la partie la plus importante : le mouvement du joueur, l'objectif principal. C'est le cœur de ton jeu.">Développement du cœur du jeu</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Une fois que le cœur du jeu fonctionne, ajoute les détails : le score, un écran de début, une musique, des effets sonores... C'est ce qui rend le jeu vivant !">Ajouts et finitions (Polishing)</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Montre ton jeu aux autres ! Explique comment tu l'as fait, quelles ont été les difficultés, et sois fier de ta création.">Présentation et Partage</button><span class="task-time">10 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Le Panneau d'Information qui apparaîtra sur la droite -->
+    <div id="info-panel" class="info-panel-hidden">
+        <!-- Le contenu sera inséré ici par JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoPanel = document.getElementById('info-panel');
+            const taskButtons = document.querySelectorAll('.task-button');
+
+            taskButtons.forEach(button => {
+                // Quand la souris entre sur le bouton
+                button.addEventListener('mouseover', () => {
+                    const description = button.dataset.description;
+                    if (description) {
+                        infoPanel.innerHTML = `<h4>💡 Détail de la tâche</h4><p>${description}</p>`;
+                        infoPanel.classList.remove('info-panel-hidden');
+                        infoPanel.classList.add('info-panel-visible');
+                    }
+                });
+
+                // Quand la souris quitte le bouton
+                button.addEventListener('mouseout', () => {
+                    infoPanel.classList.remove('info-panel-visible');
+                    infoPanel.classList.add('info-panel-hidden');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

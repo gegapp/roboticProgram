@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Scratch Interactif - Niveau 1 (Complet)</title>
+    <style>
+        /* --- Importation d'une police ludique --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap');
+
+        /* --- Styles Généraux --- */
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fdf6e3; /* Crème très clair (Solarized Light) */
+            color: #586e75; /* Gris-bleu doux */
+            margin: 0;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- En-tête du Niveau --- */
+        .level-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .level-header h1 {
+            font-size: 48px;
+            font-weight: 600;
+            color: #d33682; /* Magenta vif */
+            margin-bottom: 5px;
+            text-shadow: 2px 2px #fdf6e3;
+        }
+
+        .level-header p {
+            font-size: 20px;
+            color: #657b83; /* Gris-bleu plus foncé */
+        }
+
+        /* --- Carte de Projet --- */
+        .project-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            border: 2px solid #eee;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .project-number {
+            font-size: 30px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #fd7e14, #ffb14e); /* Dégradé Orange */
+            border-radius: 12px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #268bd2; /* Bleu vif */
+            margin: 0;
+        }
+
+        .project-description {
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #657b83;
+        }
+        
+        .project-objective {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3; /* Bleu Google */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .project-objective strong {
+             color: #1565c0;
+             font-weight: 600;
+             display: flex;
+             align-items: center;
+             font-size: 18px;
+        }
+
+        .project-objective strong::before {
+            content: '🎯';
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .project-plan h4 {
+            font-size: 20px;
+            color: #cb4b16; /* Orange foncé */
+            margin-bottom: 15px;
+        }
+        
+        .project-plan ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-plan li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Bouton de Tâche Interactif --- */
+        .task-button {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: #076678; /* Cyan foncé */
+            background-color: #f3f9fb;
+            border: 2px solid #d0e8f0;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 80%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-button:hover {
+            background-color: #e1f2f8;
+            border-color: #a6d9e9;
+            transform: translateX(5px);
+        }
+        
+        .task-time {
+            color: #859900; /* Vert olive */
+            font-weight: 600;
+        }
+
+        /* --- Panneau d'information sur la droite --- */
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 300px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 3px solid #ffc107; /* Jaune Ambre */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        #info-panel h4 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #c62828; /* Rouge foncé */
+            border-bottom: 2px solid #ffe082;
+            padding-bottom: 10px;
+        }
+
+        #info-panel p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .info-panel-hidden {
+            opacity: 0;
+            pointer-events: none; /* Ne peut pas être cliqué quand il est caché */
+            transform: translateY(-50%) translateX(20px);
+        }
+
+        .info-panel-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        @media (max-width: 1100px) {
+            #info-panel {
+                display: none; /* Cacher le panneau sur les écrans plus petits pour ne pas gêner */
+            }
+        }
+        
+        @media print {
+            body { display: block; background-color: white; }
+            .project-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc;}
+            #info-panel { display: none; } /* Ne pas imprimer le panneau interactif */
+            .task-button, .task-button:hover {
+                background-color: #f0f0f0;
+                border-color: #ddd;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="level-header">
+            <h1>Niveau 1 : Le Grand Départ</h1>
+            <p>Bienvenue dans le monde de Scratch ! Prépare-toi à créer, animer et t'amuser.</p>
+        </div>
+
+        <!-- Projet 1 à 15 sont listés ci-dessous -->
+
+        <!-- Projet 1 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">1</div><h3 class="project-title">Animer son prénom</h3></div>
+            <p class="project-description">Chaque lettre de ton prénom devient un personnage magique qui bouge et change de couleur quand tu cliques dessus.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Découvrir les "lutins" et leur faire faire une action simple avec le bloc "quand ce lutin est cliqué".</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Va dans la bibliothèque de lutins de Scratch et choisis les lettres une par une pour écrire ton prénom sur la scène.">Créer les lettres</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Prends ta première lettre et ajoute des blocs pour qu'elle tourne ou change de couleur quand tu cliques dessus.">Animer la première lettre</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Copie le code de ta première lettre sur les autres. Change un peu les effets pour que chaque lettre soit unique !">Dupliquer et adapter</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Choisis un joli fond pour ta scène et ajoute des petits sons rigolos quand tu cliques sur tes lettres.">Personnaliser la scène</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 2 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">2</div><h3 class="project-title">Carte de vœux interactive</h3></div>
+            <p class="project-description">Crée une carte d'anniversaire animée. Des ballons s'envolent et un message surprise apparaît.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Faire travailler plusieurs lutins ensemble et utiliser la bibliothèque de sons.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis un arrière-plan de fête et ajoute des personnages ou des objets comme un gâteau et un cadeau.">Préparer la scène</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Programme le cadeau pour qu'il affiche un message 'Joyeux Anniversaire !' quand on clique dessus.">Programmer l'interactivité</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute des lutins 'ballon' et programme-les pour qu'ils s'envolent doucement vers le haut de l'écran.">Ajouter des animations</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Utilise le micro pour enregistrer ta propre voix qui souhaite un joyeux anniversaire !">Personnaliser avec sa voix</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 3 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">3</div><h3 class="project-title">Monstre qui parle</h3></div>
+            <p class="project-description">Dessine ton propre monstre rigolo et programme-le pour qu'il raconte une blague avec des bulles de dialogue.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Apprendre à utiliser l'éditeur de dessin et les blocs de parole "dire" et "penser".</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Ouvre l'éditeur de costumes et utilise les outils (pinceau, formes, remplissage) pour créer un monstre unique.">Dessiner le monstre</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Utilise les blocs violets 'dire' pour faire parler ton monstre. Écris une petite présentation ou une blague.">Créer un dialogue</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Duplique le costume de ton monstre et dessine-lui une bouche ouverte. Fais alterner les deux costumes quand il parle.">Animer la parole</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Va dans l'onglet 'Sons' et enregistre un son de monstre rigolo à jouer en même temps que ton dialogue.">Ajouter des sons</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 4 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">4</div><h3 class="project-title">Voyage dans l'espace</h3></div>
+            <p class="project-description">Fais décoller une fusée qui traverse l'espace, avec des étoiles qui défilent derrière elle.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Apprendre à faire défiler un décor pour créer une illusion de mouvement.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis un lutin de fusée et programme-le pour qu'il monte doucement vers le haut de l'écran quand on clique sur le drapeau vert.">Créer la fusée</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Dessine un petit point blanc comme un nouveau lutin. C'est ton étoile ! Programme-la pour qu'elle apparaisse en haut de l'écran.">Créer les étoiles</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Programme l'étoile pour qu'elle descende. Si elle touche le bas de l'écran, hop ! Elle retourne en haut pour recommencer.">Faire défiler les étoiles</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Lance ton projet ! Est-ce que ça marche ? Ajoute une planète ou fais des étoiles de tailles différentes pour un effet plus réaliste.">Test et Amélioration</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 5 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">5</div><h3 class="project-title">Un aquarium vivant</h3></div>
+            <p class="project-description">Remplis un aquarium de poissons qui nagent de manière autonome et aléatoire.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser les blocs de mouvement "glisser" et les nombres aléatoires.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis un joli fond sous-marin dans la bibliothèque et ajoute ton premier lutin de poisson.">Préparer l'aquarium</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Utilise le bloc 'glisser en X secondes à une position aléatoire'. Le poisson va se balader tout seul, comme par magie !">Programmer le premier poisson</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Fais un clic droit sur ton poisson et 'dupliquer'. Change son costume et sa vitesse pour un aquarium plus vivant.">Ajouter d'autres poissons</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Crée un petit lutin 'bulle' qui monte du bas vers le haut de l'écran et disparaît pour rendre la scène encore plus réelle.">Personnaliser avec des bulles</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 6 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">6</div><h3 class="project-title">Groupe de musique</h3></div>
+            <p class="project-description">Crée une scène avec plusieurs instruments. Cliquer sur un instrument joue sa note et l'anime.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Découvrir la bibliothèque de sons et synchroniser son et animation.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis plusieurs lutins d'instruments dans la bibliothèque (guitare, batterie, piano...) et place-les sur la scène.">Placer les instruments</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Programme le premier instrument pour qu'il joue un son de sa catégorie et change de costume quand on clique dessus.">Programmer le premier instrument</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Copie le code sur les autres instruments et change juste le son qu'ils jouent.">Programmer les autres</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un bouton 'Play' qui active les instruments les uns après les autres pour jouer une petite mélodie.">Créer une courte mélodie</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 7 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">7</div><h3 class="project-title">Faire danser un personnage</h3></div>
+            <p class="project-description">Choisis un personnage et une musique, et programme une chorégraphie en boucle.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Maîtriser le changement de costumes dans une boucle pour créer une animation fluide.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Trouve un personnage qui a plusieurs costumes (comme 'Cassy Dance') et une musique entraînante dans la bibliothèque.">Choisir le danseur et la musique</button><span class="task-time">10 min</span></li>
+                    <li><button class="task-button" data-description="Utilise la boucle 'répéter indéfiniment' et le bloc 'costume suivant' pour que ton personnage danse sans s'arrêter.">Créer la boucle de danse</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Pendant qu'il danse, fais-le glisser de gauche à droite sur la scène pour qu'il occupe tout l'espace.">Ajouter du mouvement</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Lance la musique en même temps que la danse. Choisis une belle image de fond, comme une salle de fête ou une scène.">Synchroniser et décorer</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 8 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">8</div><h3 class="project-title">Le ballon sauteur</h3></div>
+            <p class="project-description">Programme une balle pour qu'elle se déplace seule et rebondisse sur tous les bords de l'écran.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Comprendre et utiliser le bloc fondamental "rebondir si le bord est atteint".</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un lutin 'balle', donne-lui une direction de départ (par exemple, 45 degrés) et fais-le avancer dans une boucle.">Créer et lancer la balle</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Glisse le bloc 'rebondir si le bord est atteint' à l'intérieur de ta boucle de mouvement. C'est tout !">Ajouter les rebonds</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Active l'extension 'Stylo' et utilise le bloc 'stylo en position d'écriture' pour que la balle dessine son trajet.">Laisser une trace (Stylo)</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute le bloc 'modifier la couleur du stylo' dans ta boucle pour que le tracé devienne un magnifique arc-en-ciel.">Améliorer avec de la couleur</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 9 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">9</div><h3 class="project-title">Cache-cache simple</h3></div>
+            <p class="project-description">Un personnage se cache et réapparaît à un endroit différent toutes les quelques secondes.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Introduire les blocs "montrer", "cacher", "attendre" et "aller à une position aléatoire".</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis un personnage que tu aimes et un arrière-plan avec plein d'endroits où il pourrait se cacher (une forêt, une chambre...).">Créer la scène</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Crée une boucle qui va : se cacher, attendre un peu, aller à une position au hasard, se montrer, attendre encore, puis recommencer.">Programmer le cycle de cache-cache</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un son rigolo, comme 'pop' ou 'coucou !', juste au moment où le personnage réapparaît.">Ajouter un son "coucou !"</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Change les temps d'attente. Si tu mets un temps plus court, le jeu devient plus difficile et plus rapide !">Ajuster la difficulté</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 10 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">10</div><h3 class="project-title">Effets visuels sur un lutin</h3></div>
+            <p class="project-description">Choisis un personnage et applique-lui des effets visuels fous qui changent en temps réel.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Explorer et s'amuser avec les blocs d'effets graphiques (pixelliser, tourbillon...).</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Utilise le bloc 'ajouter 25 à l'effet couleur' dans une boucle pour que ton personnage change de couleur comme un arc-en-ciel.">Effet en boucle (arc-en-ciel)</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Fais en sorte que l'effet 'tourbillon' soit égal à la position de la souris. Bouge ta souris et regarde ton lutin tourner !">Effet interactif avec la souris</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Crée un nouveau lutin 'bouton' qui, quand on le clique, utilise le bloc 'annuler les effets graphiques' pour tout remettre à zéro.">Ajouter des boutons de contrôle</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Essaie de mettre plusieurs effets en même temps. Que se passe-t-il si tu mélanges 'pixelliser' et 'fisheye' ?">Expérimenter et combiner</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 11 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">11</div><h3 class="project-title">Histoire simple "Il était une fois..."</h3></div>
+            <p class="project-description">Raconte une très courte histoire qui se déroule sur plusieurs scènes ou écrans.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Apprendre à changer d'arrière-plan pour faire progresser une narration.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Sur une feuille, imagine une petite histoire en 3 parties : un début, un milieu, une fin.">Écrire le scénario (3 scènes)</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Va dans l'éditeur d'arrière-plans et choisis ou dessine les 3 décors qui correspondent à ton histoire.">Créer les arrière-plans</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Programme ton histoire : commence sur la scène 1, dis le texte, attends, puis utilise le bloc 'basculer sur l'arrière-plan' pour passer à la suite.">Programmer la séquence</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un personnage qui reste sur la scène et qui raconte l'histoire avec des bulles de dialogue.">Ajouter un narrateur</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 12 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">12</div><h3 class="project-title">Jeu de poursuite simple (Tag)</h3></div>
+            <p class="project-description">Tu contrôles un personnage avec la souris, et un autre personnage essaie de t'attraper.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser "s'orienter vers [pointeur de souris]" et "s'orienter vers [autre lutin]".</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée ton personnage principal et mets le bloc 'aller à [pointeur de souris]' dans une boucle infinie.">Programmer le joueur</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée un deuxième lutin (le méchant !). Dans une boucle, programme-le pour qu'il 's'oriente vers [ton joueur]' et 'avance' doucement.">Programmer le poursuivant</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute une condition : si le poursuivant touche le joueur, tout s'arrête et un message 'Attrapé !' s'affiche.">Gérer la capture (défaite)</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Utilise le lutin du chat et de la souris de la bibliothèque pour rendre le jeu encore plus amusant et logique !">Personnaliser les personnages</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 13 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">13</div><h3 class="project-title">Dessiner des formes géométriques</h3></div>
+            <p class="project-description">Ordonne à ton lutin de dessiner des carrés, des triangles et d'autres formes avec le code.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Découvrir l'extension "Stylo" et comprendre la logique de la géométrie (angle et distance).</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Active l'extension 'Stylo', puis utilise une boucle 'répéter 4 fois' avec les blocs 'avancer de 100' et 'tourner de 90 degrés'.">Activer le Stylo et dessiner un carré</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Adapte ton code pour dessiner un triangle. Indice : il faut répéter 3 fois et tourner de 120 degrés.">Dessiner un triangle</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Une étoile a 5 branches. Essaie de trouver le bon angle de rotation pour la dessiner. C'est un vrai défi de géométrie !">Défi : une étoile</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Utilise les blocs pour changer la couleur et l'épaisseur du trait de ton stylo pour créer des œuvres d'art uniques.">Créativité : couleurs et tailles</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 14 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">14</div><h3 class="project-title">Un lutin qui suit la souris</h3></div>
+            <p class="project-description">Crée un personnage dont les yeux ou le corps suivent en permanence le pointeur de ta souris.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Maîtriser le bloc "s'orienter vers" dans une boucle pour une interaction continue.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Dessine un visage simple, puis mets le bloc 's'orienter vers [pointeur de souris]' dans une boucle 'répéter indéfiniment'.">Programmer l'orientation</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute une condition : si la distance de la souris est petite, le personnage sourit (change de costume). Sinon, il a l'air normal.">Ajouter une réaction (costume)</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dessine deux yeux comme des lutins séparés du visage. Programme chacun pour qu'il suive aussi la souris. L'effet est super !">Créer des yeux séparés</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Vérifie que tout fonctionne bien. Faut-il ajuster l'orientation de départ des costumes pour que ce soit parfait ?">Test et finition</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 15 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">15</div><h3 class="project-title">Simulation de feu de circulation</h3></div>
+            <p class="project-description">Programme un feu tricolore qui respecte la séquence correcte : vert, orange, rouge.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Maîtriser la séquence temporelle avec "attendre" et la gestion des apparences (costumes).</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Dessine un lutin avec trois costumes : un avec la lumière rouge allumée, un avec la orange, et un avec la verte.">Créer les 3 costumes du feu</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Dans une boucle, programme la séquence : passer au costume vert, attendre, passer à l'orange, attendre un peu, passer au rouge, attendre.">Programmer la séquence</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un lutin voiture qui avance quand le costume du feu est vert, et qui s'arrête quand il est rouge ou orange.">Ajouter des voitures qui réagissent</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Le temps du feu orange est-il assez court ? Le temps du feu rouge est-il assez long ? Règle les durées pour un effet réaliste.">Ajuster les temps</button><span class="task-time">10 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Le Panneau d'Information qui apparaîtra sur la droite -->
+    <div id="info-panel" class="info-panel-hidden">
+        <!-- Le contenu sera inséré ici par JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoPanel = document.getElementById('info-panel');
+            const taskButtons = document.querySelectorAll('.task-button');
+
+            taskButtons.forEach(button => {
+                // Quand la souris entre sur le bouton
+                button.addEventListener('mouseover', () => {
+                    const description = button.dataset.description;
+                    if (description) {
+                        infoPanel.innerHTML = `<h4>💡 Détail de la tâche</h4><p>${description}</p>`;
+                        infoPanel.classList.remove('info-panel-hidden');
+                        infoPanel.classList.add('info-panel-visible');
+                    }
+                });
+
+                // Quand la souris quitte le bouton
+                button.addEventListener('mouseout', () => {
+                    infoPanel.classList.remove('info-panel-visible');
+                    infoPanel.classList.add('info-panel-hidden');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

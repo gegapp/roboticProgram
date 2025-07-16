@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Scratch Interactif - Niveau 2 (Complet)</title>
+    <style>
+        /* --- Importation d'une police ludique --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap');
+
+        /* --- Styles Généraux --- */
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #f4f3f8; /* Lavande très pâle */
+            color: #494d6e; /* Gris-violet foncé */
+            margin: 0;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- En-tête du Niveau --- */
+        .level-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .level-header h1 {
+            font-size: 48px;
+            font-weight: 600;
+            color: #6a1b9a; /* Violet profond */
+            margin-bottom: 5px;
+            text-shadow: 2px 2px #f4f3f8;
+        }
+
+        .level-header p {
+            font-size: 20px;
+            color: #5e5a7b; /* Gris-violet */
+        }
+
+        /* --- Carte de Projet --- */
+        .project-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            border: 2px solid #eee;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .project-number {
+            font-size: 30px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #42a5f5, #1e88e5); /* Dégradé Bleu */
+            border-radius: 12px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #00897b; /* Turquoise foncé */
+            margin: 0;
+        }
+
+        .project-description {
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #5e5a7b;
+        }
+        
+        .project-objective {
+            background-color: #ede7f6; /* Violet très clair */
+            border-left: 5px solid #7e57c2; /* Violet moyen */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .project-objective strong {
+             color: #4527a0; /* Violet foncé */
+             font-weight: 600;
+             display: flex;
+             align-items: center;
+             font-size: 18px;
+        }
+
+        .project-objective strong::before {
+            content: '🧠';
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .project-plan h4 {
+            font-size: 20px;
+            color: #d84315; /* Orange brûlé */
+            margin-bottom: 15px;
+        }
+        
+        .project-plan ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-plan li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Bouton de Tâche Interactif --- */
+        .task-button {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: #00695c; /* Turquoise foncé */
+            background-color: #e0f2f1; /* Turquoise très clair */
+            border: 2px solid #b2dfdb;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 80%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-button:hover {
+            background-color: #a7ffeb;
+            border-color: #64ffda;
+            transform: translateX(5px);
+        }
+        
+        .task-time {
+            color: #ad1457; /* Rose foncé */
+            font-weight: 600;
+        }
+
+        /* --- Panneau d'information sur la droite --- */
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 300px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 3px solid #673ab7; /* Violet */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        #info-panel h4 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #4a148c; /* Violet très foncé */
+            border-bottom: 2px solid #d1c4e9;
+            padding-bottom: 10px;
+        }
+
+        #info-panel p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .info-panel-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) translateX(20px);
+        }
+
+        .info-panel-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        @media (max-width: 1100px) {
+            #info-panel { display: none; }
+        }
+        
+        @media print {
+            body { display: block; background-color: white; }
+            .project-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc;}
+            #info-panel { display: none; }
+            .task-button, .task-button:hover {
+                background-color: #f0f0f0;
+                border-color: #ddd;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="level-header">
+            <h1>Niveau 2 : L'Aventure des Jeux</h1>
+            <p>Apprends à utiliser les variables, les conditions et les capteurs pour créer tes premiers vrais jeux !</p>
+        </div>
+
+        <!-- Projets 16 à 30 -->
+
+        <!-- Projet 16 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">16</div><h3 class="project-title">Jeu du labyrinthe - Nv. 1</h3></div>
+            <p class="project-description">Guide un personnage dans un labyrinthe sans toucher les murs. Si tu touches, tu recommences !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser la condition `si touche la couleur...` pour gérer les collisions et la défaite.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Dessine un labyrinthe simple en arrière-plan. Important : les murs doivent être d'une seule et même couleur (ex: tout en noir).">Créer les éléments</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Programme ton personnage pour qu'il bouge avec les flèches du clavier. Utilise les blocs 'quand la touche... est pressée'.">Programmer le déplacement</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Utilise un bloc 'si... alors'. À l'intérieur, mets le capteur 'touche la couleur ?' et choisis la couleur de tes murs. Si c'est vrai, renvoie le joueur au départ.">Gérer les collisions</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dessine une zone d'arrivée (un carré vert, par exemple). Si le joueur la touche, un message 'Gagné !' s'affiche.">Ajouter une fin</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 17 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">17</div><h3 class="project-title">Jeu de Pong - Version simple</h3></div>
+            <p class="project-description">Contrôle une raquette avec la souris pour faire rebondir une balle et l'empêcher de tomber.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Maîtriser la détection de contact entre deux lutins (`si touche [raquette]`).</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un rectangle en bas de l'écran. Programme son 'abscisse x' pour qu'elle soit toujours égale à celle de la souris.">Créer la raquette</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée une balle, fais-la avancer dans une boucle et utilise 'rebondir si le bord est atteint' pour qu'elle ne sorte pas de l'écran.">Animer la balle</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Dans le code de la balle, ajoute : 'si touche [raquette] alors...'. Fais-la alors changer de direction pour repartir vers le haut.">Programmer le rebond</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dessine une zone de couleur (ex: rouge) tout en bas. Si la balle touche cette couleur, utilise le bloc 'stop tout' pour arrêter le jeu.">Ajouter la défaite</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 18 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">18</div><h3 class="project-title">Clicker Game (Jeu de clics)</h3></div>
+            <p class="project-description">Clique sur un objet le plus de fois possible pour faire exploser ton score. Simple et addictif !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Découvrir et utiliser les **variables** pour la première fois afin de créer un score.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Va dans la catégorie orange 'Variables', clique sur 'Créer une variable' et nomme-la 'Score'. Elle apparaîtra sur l'écran !">Créer la variable 'Score'</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Utilise un bloc 'quand drapeau vert cliqué' pour 'mettre Score à 0'. C'est très important pour recommencer une partie !">Initialiser le score</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Dans le code de l'objet à cliquer, utilise 'quand ce lutin est cliqué' pour 'ajouter 1 à Score'.">Augmenter le score</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Pour rendre le jeu plus amusant, ajoute un son à chaque clic et fais un peu grossir puis rétrécir l'objet.">Ajouter du feedback</button><span class="task-time">30 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 19 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">19</div><h3 class="project-title">Jeu de collecte</h3></div>
+            <p class="project-description">Déplace un panier pour attraper des objets qui tombent du ciel. Chaque objet attrapé augmente ton score.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Renforcer l'utilisation des variables et gérer un objet qui apparaît aléatoirement.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un lutin 'panier' et programme-le pour qu'il suive la souris horizontalement (seul son 'x' change).">Créer le panier</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Crée un lutin 'pomme'. Programme-la pour aller en haut de l'écran, à une position 'x' aléatoire, puis descendre.">Faire tomber un objet</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dans le code de la pomme, si elle touche le panier, augmente le score, joue un son, puis retourne en haut pour recommencer.">Gérer la collecte</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Si la pomme atteint le bas de l'écran sans toucher le panier, elle doit aussi retourner en haut pour qu'on puisse continuer à jouer.">Gérer l'échec</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 20 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">20</div><h3 class="project-title">Tape-la-taupe</h3></div>
+            <p class="project-description">Des taupes sortent de leurs trous ! Clique dessus le plus vite possible avant qu'elles ne se cachent.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Combiner la gestion du score, la vitesse et le cycle `cacher`/`montrer`.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Dessine un décor avec 3 ou 4 cercles noirs pour les trous. Crée ensuite un lutin 'taupe'.">Créer la taupe et les trous</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Dans une boucle, la taupe 'attend un temps aléatoire', 'va à la position' d'un des trous, se 'montre', 'attend', puis se 'cache'.">Programmer le mouvement</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Utilise 'quand ce lutin est cliqué', 'ajouter 1 au score' et fais-la se cacher immédiatement pour aller à un autre trou.">Gérer le score</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Crée une variable 'vitesse' et utilise-la dans le bloc 'attendre'. Diminue un peu cette variable à chaque fois qu'on marque un point.">Augmenter la difficulté</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 21 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">21</div><h3 class="project-title">Le chat et la souris</h3></div>
+            <p class="project-description">Tu es une souris qui doit manger des fromages tout en échappant à un chat qui te pourchasse.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Gérer plusieurs conditions de collision (ennemi = perdre, objet = gagner un point).</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Choisis le lutin 'souris' et programme-le pour qu'il bouge avec les flèches du clavier.">Programmer la souris (joueur)</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Choisis le lutin 'chat'. Dans une boucle, fais-le 's'orienter vers [souris]' et 'avancer' doucement.">Programmer le chat (ennemi)</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Si 'souris touche chat', le jeu s'arrête. Si 'souris touche fromage', le fromage disparaît et le score augmente.">Gérer les collisions</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Compte le nombre de fromages au début. Si le score atteint ce nombre, un message 'Gagné !' s'affiche.">Ajouter la condition de victoire</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 22 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">22</div><h3 class="project-title">Calculatrice simple</h3></div>
+            <p class="project-description">Crée un programme qui te demande deux nombres et fait une addition ou une soustraction pour toi.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser `demander et attendre` et stocker les réponses dans des variables.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée trois variables : 'nombre1', 'nombre2', et 'résultat'. Elles garderont en mémoire les chiffres.">Créer les variables</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Utilise 'demander [Entrez un nombre]' et mets la 'réponse' dans la variable 'nombre1'. Fais la même chose pour 'nombre2'.">Demander les nombres</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Demande à l'utilisateur de taper '+' ou '-'. Utilise un bloc 'si...sinon' pour faire le bon calcul et stocker le résultat.">Choisir l'opération</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Utilise le bloc 'dire' et 'regrouper' pour afficher une belle phrase comme 'Le résultat est : [résultat]'.">Afficher le résultat</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 23 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">23</div><h3 class="project-title">Snake - Version de base</h3></div>
+            <p class="project-description">Contrôle un serpent qui se déplace et mange une pomme. Le jeu s'arrête s'il touche les bords.</p>
+            <div class="project-objective"><strong>Objectif :</strong> S'initier au clonage pour simuler une queue et à la direction contrôlée.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="La tête avance toute seule. Utilise les flèches pour changer sa direction (s'orienter à 0, 90, 180, 270).">Programmer la tête</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dans une boucle, la tête 'crée un clone' d'elle-même. Chaque clone attend un court instant avant de s'auto-détruire.">Créer une illusion de queue</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un lutin 'pomme'. Si la tête du serpent la touche, la pomme doit aller à un autre endroit au hasard.">Manger la pomme</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Si la tête du serpent touche le bord de l'écran, utilise le bloc 'stop tout' pour mettre fin à la partie.">Gérer la défaite</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 24 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">24</div><h3 class="project-title">Jeu de tir sur cible</h3></div>
+            <p class="project-description">Une cible bouge sur l'écran. Vise avec la souris et clique pour la toucher et marquer des points !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Combiner le suivi de la souris (viseur) et la détection de clic sur un autre lutin.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un lutin en forme de croix ou de cercle qui 'va à [pointeur de souris]' en permanence. Ce sera ton viseur.">Créer le viseur</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée un lutin 'cible' qui 'glisse' vers des positions aléatoires toutes les quelques secondes.">Créer la cible mobile</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dans le code de la cible, utilise 'quand ce lutin est cliqué', 'ajouter 1 au score' et joue un son 'pop'.">Programmer le tir</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Crée une variable 'temps' qui diminue chaque seconde. Quand elle arrive à 0, le jeu s'arrête.">Ajouter un chronomètre</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 25 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">25</div><h3 class="project-title">Personnage qui saute</h3></div>
+            <p class="project-description">Programme un personnage qui court tout seul et doit sauter par-dessus des obstacles qui arrivent vers lui.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Créer une mécanique de saut simple et gérer la collision avec un obstacle.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un lutin (un cactus, une caisse) qui part de la droite de l'écran et glisse vers la gauche, puis recommence.">Créer l'obstacle mobile</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Ton joueur est fixe sur l'axe x mais change de costume pour donner l'impression qu'il court sur place.">Animer le joueur</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Utilise 'quand la touche espace est pressée' pour faire monter le joueur (modifier y par 10) puis le faire redescendre.">Programmer le saut</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Dans une boucle, vérifie si ton joueur 'touche l'obstacle'. Si c'est le cas, affiche 'Perdu !' et arrête tout.">Gérer la collision</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 26 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">26</div><h3 class="project-title">Jeu "Chaud/Froid"</h3></div>
+            <p class="project-description">Un trésor est caché ! Un personnage te guide en te disant si tu es "froid", "chaud" ou "brûlant" de la solution.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Utiliser le capteur `distance de [lutin]` pour créer une mécanique de jeu originale.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée un lutin 'trésor', place-le où tu veux sur la scène, puis utilise le bloc 'cacher' pour le rendre invisible.">Cacher le trésor</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Crée un personnage qui, dans une boucle, va calculer la 'distance de [pointeur de souris]'. Cette valeur changera quand tu bougeras la souris.">Créer le guide</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Utilise des 'si...sinon' : 'si distance > 200', dire 'Froid'. Sinon, 'si distance > 100', dire 'Tiède'. Sinon, dire 'Chaud !'.">Donner les indices</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Si la distance est très petite (ex: < 20), le guide dit 'Trouvé !', le trésor se montre, et le jeu s'arrête.">Gérer la victoire</button><span class="task-time">20 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 27 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">27</div><h3 class="project-title">Générateur d'histoires aléatoires</h3></div>
+            <p class="project-description">Crée un programme qui invente des phrases amusantes en piochant au hasard un personnage, un lieu et une action.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Introduire les **listes** pour stocker des ensembles de mots ou de phrases.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Va dans 'Variables', clique sur 'Créer une liste'. Fais-en trois : 'personnages', 'lieux', 'actions'.">Créer les listes</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Clique sur le '+' de chaque liste pour y ajouter plusieurs mots. Ex: 'un chat', 'un alien' dans personnages.">Remplir les listes</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée un bouton qui, au clic, va chercher un 'élément aléatoire' dans chaque liste et le stocke dans une variable.">Piocher au hasard</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Utilise le bloc 'regrouper' plusieurs fois pour assembler les variables en une seule phrase que ton personnage pourra dire.">Construire la phrase</button><span class="task-time">25 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 28 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">28</div><h3 class="project-title">Créateur de cartes postales</h3></div>
+            <p class="project-description">Un studio pour créer une carte postale : choisis un décor, ajoute des personnages et écris un message.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Combiner le changement de décor, les lutins déplaçables et la saisie de texte.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée des petits lutins 'bouton'. Quand tu cliques sur un bouton, utilise 'basculer sur l'arrière-plan...' pour changer de décor.">Choisir le décor</button><span class="task-time">25 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute des lutins 'sticker' (un soleil, un palmier...). Active l'option 'peut être glissé en mode projet' pour les déplacer.">Ajouter des personnages</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Crée un bouton 'Texte' qui 'demande' 'Quel est ton message ?' et affiche la 'réponse' sur la carte.">Écrire un message</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Ajoute un bouton 'gomme' qui cache tous les stickers et efface le texte pour pouvoir recommencer une nouvelle carte.">Bouton pour tout effacer</button><span class="task-time">15 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 29 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">29</div><h3 class="project-title">Jeu de course simple</h3></div>
+            <p class="project-description">Deux joueurs font la course. Le premier qui martèle sa touche assignée assez vite gagne !</p>
+            <div class="project-objective"><strong>Objectif :</strong> Gérer les entrées de deux joueurs sur le même clavier.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Crée deux lutins coureurs, place-les sur une ligne de départ à gauche, et dessine une ligne d'arrivée à droite.">Mettre en place la piste</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Programme le premier coureur pour qu'il 'avance de 10 pas' chaque fois que la touche 'Q' (par exemple) est pressée.">Programmer le joueur 1</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Fais la même chose pour le second coureur, mais avec une autre touche, comme 'M', à l'autre bout du clavier.">Programmer le joueur 2</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Dans une boucle, vérifie si un des coureurs 'touche la ligne d'arrivée'. Si c'est le cas, annonce le gagnant et arrête le jeu.">Détecter le vainqueur</button><span class="task-time">30 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 30 -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">30</div><h3 class="project-title">Quiz interactif</h3></div>
+            <p class="project-description">Crée un quiz sur ton sujet préféré, qui pose des questions, vérifie les réponses et compte le score.</p>
+            <div class="project-objective"><strong>Objectif :</strong> Renforcer la maîtrise de `demander et attendre`, des variables et des conditions `si/alors`.</div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Sur une feuille, écris 3 ou 4 questions sur un sujet que tu aimes (animaux, jeux vidéo...) avec leurs réponses exactes.">Préparer les questions</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="Crée une variable 'Score' et n'oublie pas de la 'mettre à 0' au tout début du jeu.">Créer la variable Score</button><span class="task-time">10 min</span></li>
+                    <li><button class="task-button" data-description="Utilise 'demander'. Si la 'réponse' de l'utilisateur est égale à ta bonne réponse, 'ajoute 1 au score' et dis 'Bravo !'. Sinon, dis 'Dommage...'.">Programmer une question</button><span class="task-time">30 min</span></li>
+                    <li><button class="task-button" data-description="Duplique ton bloc de code pour poser les autres questions. À la fin, affiche le score final avec une phrase de conclusion.">Ajouter les autres questions</button><span class="task-time">35 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Le Panneau d'Information qui apparaîtra sur la droite -->
+    <div id="info-panel" class="info-panel-hidden">
+        <!-- Le contenu sera inséré ici par JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoPanel = document.getElementById('info-panel');
+            const taskButtons = document.querySelectorAll('.task-button');
+
+            taskButtons.forEach(button => {
+                // Quand la souris entre sur le bouton
+                button.addEventListener('mouseover', () => {
+                    const description = button.dataset.description;
+                    if (description) {
+                        infoPanel.innerHTML = `<h4>💡 Détail de la tâche</h4><p>${description}</p>`;
+                        infoPanel.classList.remove('info-panel-hidden');
+                        infoPanel.classList.add('info-panel-visible');
+                    }
+                });
+
+                // Quand la souris quitte le bouton
+                button.addEventListener('mouseout', () => {
+                    infoPanel.classList.remove('info-panel-visible');
+                    infoPanel.classList.add('info-panel-hidden');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>```

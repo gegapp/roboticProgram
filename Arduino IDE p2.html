@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Arduino IDE (C/C++) - Partie 2 : Systèmes & Connectivité</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg-color: #ffffff;
+            --text-color: #495057;
+            --border-color: #e9ecef;
+            --main-title-color: #6f42c1; /* Thème Violet pour la partie 2 */
+            --main-subtitle-color: #fd7e14; /* Orange */
+            --project-title-color: #007bff; /* Bleu */
+            --accent-orange: #fd7e14;
+            --accent-yellow: #ffc107;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .main-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--main-title-color);
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .main-header p {
+            font-size: 1.25rem;
+            color: var(--main-subtitle-color);
+            margin-top: 10px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg-color);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #f1f3f5;
+        }
+
+        .project-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--project-title-color);
+            margin: 0;
+        }
+
+        .section-box {
+            margin-top: 25px;
+        }
+
+        .section-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: #343a40;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .section-box .icon {
+            font-size: 1.5rem;
+        }
+
+        .objective p {
+            background-color: #f3e5f5; /* Fond violet très clair */
+            border-left: 4px solid var(--main-title-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        .components ul {
+            list-style: none;
+            padding: 15px;
+            background-color: #fff8e1; /* Fond orange très clair */
+            border-left: 4px solid var(--main-subtitle-color);
+            border-radius: 8px;
+        }
+
+        .components li {
+            margin-bottom: 5px;
+        }
+        
+        .exercises ol {
+            list-style: none;
+            padding: 0;
+            counter-reset: exercise-counter;
+        }
+
+        .exercises li {
+            counter-increment: exercise-counter;
+            margin-bottom: 12px;
+            padding: 10px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .exercises li::before {
+            content: counter(exercise-counter);
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: var(--project-title-color);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        code {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #c92a2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header class="main-header">
+            <h1>Programme Arduino IDE (C/C++)</h1>
+            <p>Partie 2 : Systèmes Intégrés & Connectivité</p>
+        </header>
+
+        <!-- Projet 1 (original 13) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">1</div><h3 class="project-title">Corbeille Intelligente</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Intégrer plusieurs composants pour créer un objet intelligent et autonome.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur Ultrason, Servo-moteur, LEDs, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Structurer le code en combinant les programmes du servo et de l'ultrason.</li>
+                <li>Écrire une condition <code>if</code> qui déclenche le servo si la distance est inférieure à un seuil.</li>
+                <li>Ajouter une LED qui s'allume quand le couvercle est ouvert.</li>
+                <li>Utiliser <code>delay()</code> pour que le couvercle reste ouvert quelques secondes.</li>
+                <li>Défi : Gérer l'état avec une variable <code>bool estOuvert</code> pour éviter les bugs.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 2 (original 14) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">2</div><h3 class="project-title">Système de Sécurité</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Créer un système d'alarme simple en utilisant un buzzer comme actionneur sonore.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur Ultrason, Buzzer, LED, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Tester le buzzer avec la fonction <code>tone(pin, frequence);</code>.</li>
+                <li>Arrêter le son avec <code>noTone(pin);</code>.</li>
+                <li>Intégrer la détection de distance du capteur ultrason.</li>
+                <li>Si une intrusion est détectée, déclencher une alarme sonore et visuelle.</li>
+                <li>Défi : Ajouter un bouton pour "armer" et "désarmer" le système.</li>
+            </ol></div>
+        </div>
+        
+        <!-- Projet 3 (original 15) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">3</div><h3 class="project-title">Station Météo Simple</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Mesurer la température et l'humidité avec un capteur DHT11.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur DHT11, LCD I2C, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Installer la bibliothèque requise pour le capteur DHT.</li>
+                <li>Créer un objet <code>DHT dht(DHTPIN, DHTTYPE);</code></li>
+                <li>Lire les données avec <code>dht.readTemperature()</code> et <code>dht.readHumidity()</code>.</li>
+                <li>Afficher la température et l'humidité sur l'écran LCD.</li>
+                <li>Créer une alerte si la température dépasse un seuil.</li>
+            </ol></div>
+        </div>
+        
+        <!-- Projet 4 (original 16) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">4</div><h3 class="project-title">Lampe Automatique (LDR)</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Créer une lampe qui s'allume dans l'obscurité, en lisant une entrée analogique.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, LDR, LED, Résistances, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Réaliser le montage (pont diviseur de tension avec la LDR).</li>
+                <li>Lire la valeur de luminosité avec <code>analogRead(A0);</code></li>
+                <li>Déterminer un seuil pour "jour" et "nuit" en testant.</li>
+                <li>Programmer l'allumage de la LED si la luminosité est sous le seuil.</li>
+                <li>Défi : Faire varier l'intensité de la LED avec <code>analogWrite()</code> et la fonction <code>map()</code>.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 5 (original 17 & 18) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">5</div><h3 class="project-title">Station Météo Complète</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Créer un projet complexe combinant plusieurs capteurs et un afficheur.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, DHT11, LDR, LCD I2C, LEDs, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Organiser les branchements de tous les composants.</li>
+                <li>Dans <code>loop()</code>, lire tous les capteurs à la suite.</li>
+                <li>Créer une interface utilisateur claire sur le LCD.</li>
+                <li>Programmer des alertes (ex: LED rouge si trop chaud).</li>
+                <li>Défi : Envoyer les données au Moniteur Série dans un format structuré (ex: "T:25;H:60;L:800").</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 6 (original 19) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">6</div><h3 class="project-title">Robot Éviteur d'Obstacles</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Écrire des fonctions personnalisées pour contrôler un robot mobile et le rendre autonome.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Châssis Robot, Arduino, Capteur Ultrason, Driver Moteur (L298N), Moteurs, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Comprendre le rôle du driver L298N pour contrôler les moteurs.</li>
+                <li>Créer des fonctions : <code>void avancer()</code>, <code>void reculer()</code>, <code>void tourner()</code>, etc.</li>
+                <li>Dans <code>loop()</code>, lire la distance avec le capteur ultrason.</li>
+                <li>Écrire la logique principale : si la distance est grande, appeler <code>avancer()</code>.</li>
+                <li>Sinon, appeler <code>reculer()</code>, puis <code>tourner()</code>.</li>
+                <li>Défi : Monter le capteur sur un servo pour que le robot "regarde" avant de tourner.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 7 (original 20) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">7</div><h3 class="project-title">Robot Suiveur de Ligne</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Construire un robot qui suit une ligne noire en utilisant des capteurs infrarouges (IR).</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Châssis Robot, Arduino, 2x Capteurs IR, Driver Moteur, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Comprendre le principe du capteur IR (noir absorbe, blanc réfléchit).</li>
+                <li>Lire l'état des capteurs avec <code>digitalRead()</code>.</li>
+                <li>Programmer la logique : si capteur droit voit noir, tourner à droite.</li>
+                <li>Programmer la logique : si capteur gauche voit noir, tourner à gauche.</li>
+                <li>Programmer la logique : si les deux voient blanc, avancer.</li>
+                <li>Défi : Gérer le cas où les deux voient noir (intersection ou fin de ligne).</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 8 (original 21) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">8</div><h3 class="project-title">Système d'Arrosage Automatique</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Créer un système qui active une pompe à eau en utilisant un capteur et un module relais.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Capteur d'humidité du sol, Pompe à eau, Module relais 5V, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Lire la valeur du capteur d'humidité avec <code>analogRead()</code>.</li>
+                <li>Comprendre le rôle du relais (interrupteur contrôlé par l'Arduino).</li>
+                <li>Calibrer les seuils d'humidité (valeur "sèche" et "humide").</li>
+                <li>Programmer le contrôle du relais avec <code>digitalWrite()</code>.</li>
+                <li>Créer le système complet : si sol sec, activer le relais (pompe) pendant 5 secondes.</li>
+            </ol></div>
+        </div>
+        
+        <!-- Projet 9 (original 22) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">9</div><h3 class="project-title">Système de Tri Automatique</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Créer un système de convoyeur qui trie des objets selon leur taille.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Ultrason, 2x Servo-moteurs, Capteur IR, LCD, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Utiliser le capteur IR pour détecter la présence d'un objet.</li>
+                <li>Quand un objet est détecté, utiliser l'ultrason pour mesurer sa hauteur.</li>
+                <li>Utiliser une structure <code>if ... else</code> pour décider de la catégorie ("Grand" ou "Petit").</li>
+                <li>Activer un servo-moteur pour dévier les objets "Grands".</li>
+                <li>Défi : Ajouter un compteur pour chaque catégorie et l'afficher sur le LCD.</li>
+            </ol></div>
+        </div>
+
+        <!-- Projet 10 (original 23) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">10</div><h3 class="project-title">Communication Bluetooth</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Établir une communication série sans fil pour recevoir des commandes.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, Module Bluetooth (HC-05/06), LEDs, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Connecter le module Bluetooth aux broches TX/RX.</li>
+                <li>Initialiser la communication avec <code>Serial.begin(9600);</code></li>
+                <li>Vérifier si des données sont disponibles avec <code>if (Serial.available() > 0)</code>.</li>
+                <li>Lire le caractère reçu avec <code>char commande = Serial.read();</code></li>
+                <li>Utiliser <code>switch ... case</code> pour agir en fonction de la commande.</li>
+                <li>Envoyer une réponse à l'application avec <code>Serial.println("OK");</code></li>
+            </ol></div>
+        </div>
+        
+        <!-- Projet 11 (original 24) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">11</div><h3 class="project-title">Smart Home Complète</h3></div>
+            <div class="section-box objective"><h4><span class="icon">🎯</span>Objectif</h4><p>Intégrer tous les concepts appris dans un grand projet final avec contrôle à distance.</p></div>
+            <div class="section-box components"><h4><span class="icon">⚙️</span>Composants Requis</h4><ul><li>Arduino, DHT11, LDR, LED, Servo, LCD, Bluetooth, Câbles</li></ul></div>
+            <div class="section-box exercises"><h4><span class="icon">📋</span>Exercices</h4><ol>
+                <li>Organiser le code avec des fonctions claires pour chaque capteur et actionneur.</li>
+                <li>Dans <code>loop()</code>, appeler des fonctions pour la gestion automatique (ex: <code>gererLumiere()</code>).</li>
+                <li>En parallèle, vérifier les commandes Bluetooth reçues via <code>Serial</code>.</li>
+                <li>Si une commande manuelle arrive (ex: 'allumer'), elle doit prendre le dessus sur le mode automatique.</li>
+                <li>Mettre à jour l'écran LCD pour afficher l'état de tous les composants.</li>
+                <li>Défi : Créer un mode "scénario" (ex: la commande 'cinema' baisse la lumière et ferme les volets).</li>
+            </ol></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Robotique - Partie 2 : Arduino & App Inventor</title>
+    <style>
+        /* --- Importation d'une police ludique --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap');
+
+        /* --- Styles Généraux --- */
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fdf6e3; /* Crème très clair (Solarized Light) */
+            color: #586e75; /* Gris-bleu doux */
+            margin: 0;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- En-tête du Niveau --- */
+        .level-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .level-header h1 {
+            font-size: 48px;
+            font-weight: 600;
+            color: #d33682; /* Magenta vif */
+            margin-bottom: 5px;
+            text-shadow: 2px 2px #fdf6e3;
+        }
+
+        .level-header p {
+            font-size: 20px;
+            color: #657b83; /* Gris-bleu plus foncé */
+        }
+
+        /* --- Carte de Projet --- */
+        .project-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            border: 2px solid #eee;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .project-number {
+            font-size: 30px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #fd7e14, #ffb14e); /* Dégradé Orange */
+            border-radius: 12px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .project-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #268bd2; /* Bleu vif */
+            margin: 0;
+        }
+
+        .project-description {
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #657b83;
+        }
+        
+        .project-objective {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3; /* Bleu Google */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .project-objective strong {
+             color: #1565c0;
+             font-weight: 600;
+             display: flex;
+             align-items: center;
+             font-size: 18px;
+        }
+
+        .project-objective strong::before {
+            content: '🎯';
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .project-objective ul {
+            padding-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .project-plan h4 {
+            font-size: 20px;
+            color: #cb4b16; /* Orange foncé */
+            margin-bottom: 15px;
+        }
+        
+        .project-plan ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-plan li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Bouton de Tâche Interactif --- */
+        .task-button {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: #076678; /* Cyan foncé */
+            background-color: #f3f9fb;
+            border: 2px solid #d0e8f0;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 80%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .task-button:hover {
+            background-color: #e1f2f8;
+            border-color: #a6d9e9;
+            transform: translateX(5px);
+        }
+        
+        .task-time {
+            color: #859900; /* Vert olive */
+            font-weight: 600;
+        }
+
+        /* --- Panneau d'information sur la droite --- */
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 300px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 3px solid #ffc107; /* Jaune Ambre */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        #info-panel h4 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #c62828; /* Rouge foncé */
+            border-bottom: 2px solid #ffe082;
+            padding-bottom: 10px;
+        }
+
+        #info-panel p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .info-panel-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) translateX(20px);
+        }
+
+        .info-panel-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        @media (max-width: 1100px) {
+            #info-panel {
+                display: none;
+            }
+        }
+        
+        @media print {
+            body { display: block; background-color: white; }
+            .project-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc;}
+            #info-panel { display: none; }
+            .task-button, .task-button:hover {
+                background-color: #f0f0f0;
+                border-color: #ddd;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="level-header">
+            <h1 style="color: #cb4b16;">Module Robotique</h1>
+            <p>Partie 2 : Donner Vie aux Applications avec Arduino</p>
+        </div>
+
+        <!-- Projet 1 (Robotique) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">1</div><h3 class="project-title">Ma Maison Intelligente</h3></div>
+            <p class="project-description">Crée une application qui agit comme une télécommande pour allumer et éteindre une lumière (une LED) dans une maquette de maison, via Bluetooth.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Établir une connexion Bluetooth avec une carte Arduino.</li><li>Envoyer des commandes textuelles simples ('ON'/'OFF').</li><li>Lier un bouton de l'application à une action physique.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On discute des lumières qu'on contrôle à distance. Pour notre mini-maison, il nous faudrait un bouton pour allumer, un bouton pour éteindre. Simple et efficace !">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On découvre comment envoyer des ordres 'ON' et 'OFF' avec le `BluetoothClient`. Côté Arduino, on voit comment un `if` peut lire cet ordre et contrôler une LED.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On assemble l'app avec les boutons 'Allumer' et 'Éteindre'. On programme les blocs pour envoyer les commandes. On charge le code sur l'Arduino et on branche la LED.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Remplacer les deux boutons par un seul `Switch` (interrupteur). Défi Avancé : Ajouter une deuxième LED pour une autre 'pièce' et la contrôler avec d'autres boutons.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Illuminons nos maisons ! Chaque élève montre comment il peut contrôler sa lumière depuis son téléphone. C'est le premier pas vers la domotique !">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 2 (Robotique) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">2</div><h3 class="project-title">Robot Télécommandé</h3></div>
+            <p class="project-description">Crée une télécommande complète pour piloter un robot Arduino avec des boutons directionnels et un contrôle de la vitesse.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Envoyer des commandes simples ('F', 'B', 'L', 'R') par Bluetooth.</li><li>Utiliser un `Slider` pour envoyer une valeur variable.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="Comment fonctionnent les manettes de jeu ? On a besoin de commandes pour avancer, reculer, tourner et s'arrêter. Comment contrôler la vitesse ?">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On définit un protocole : 'F' pour 'Forward', 'S' pour 'Stop', etc. On découvre comment le `Slider` peut envoyer une valeur de vitesse (ex: 'V150').">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On crée l'interface avec une croix directionnelle et un `Slider`. On programme chaque bouton pour envoyer le bon caractère à l'Arduino.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Le robot ne bouge que TANT QUE le doigt est appuyé sur le bouton. Défi Avancé : Le robot klaxonne si on secoue le téléphone !">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Course d'obstacles ! On pilote notre robot sur un petit parcours pour tester notre télécommande.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Projet 3 (Robotique) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">3</div><h3 class="project-title">Robot Guidé par la Voix</h3></div>
+            <p class="project-description">Pilote ton robot avec la voix ! Dis 'avance' ou 'stop' à ton téléphone, et il transmet l'ordre au robot.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Maîtriser le composant `SpeechRecognizer`.</li><li>Utiliser la logique conditionnelle pour interpréter la voix.</li><li>Combiner technologie du téléphone et action physique.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On parle déjà à nos téléphones. Et si on pouvait parler à nos propres robots ? Quels mots-clés simples pourraient-ils comprendre ?">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On découvre le bloc `AfterGettingText` qui contient le résultat de la reconnaissance vocale. On va comparer ce résultat à nos mots-clés ('avance', 'stop'...).">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On crée l'app avec un bouton 'Parler'. Dans les blocs, on programme la structure `if/then/else if` qui analyse la voix et envoie la bonne commande BT au robot.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Ajouter une réponse vocale ! Quand l'app envoie une commande, le téléphone confirme 'OK, j'avance !' avec `TextToSpeech`.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Démonstration de dressage de robots ! Chaque élève donne des ordres à sa création devant le groupe.">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projet 4 (Robotique) -->
+        <div class="project-card">
+            <div class="card-header"><div class="project-number">4</div><h3 class="project-title">La Serre Intelligente</h3></div>
+            <p class="project-description">Le projet ultime : un système qui non seulement mesure l'humidité du sol, mais qui déclenche automatiquement une pompe à eau si la plante a soif.</p>
+            <div class="project-objective"><strong>Objectifs Pédagogiques :</strong><ul><li>Maîtriser la communication bidirectionnelle (recevoir ET envoyer).</li><li>Implémenter une logique d'automatisation complète.</li></ul></div>
+            <div class="project-plan"><h4>Plan de la séance (90 min)</h4>
+                <ul>
+                    <li><button class="task-button" data-description="On a mesuré et on a commandé. Comment combiner les deux pour créer un système qui s'occupe d'une plante tout seul ? On imagine un mode 'Auto' et un mode 'Manuel'.">Idéation & Découverte</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On conçoit la logique de l'automatisation : SI le mode est 'Auto' ET que l'humidité est basse, ALORS envoyer la commande 'Arroser' à l'Arduino.">Conception & Apprentissage</button><span class="task-time">15 min</span></li>
+                    <li><button class="task-button" data-description="On construit l'interface avec un interrupteur pour le mode. On programme la logique de décision dans le `Clock` de l'application.">Réalisation Guidée</button><span class="task-time">35 min</span></li>
+                    <li><button class="task-button" data-description="Défi : Créer un journal d'arrosage ! L'app enregistre la date et l'heure de chaque arrosage automatique dans une liste affichée à l'écran.">Défi+ & Personnalisation</button><span class="task-time">20 min</span></li>
+                    <li><button class="task-button" data-description="Démonstration finale : on laisse la terre sécher et on regarde, fascinés, le système déclencher l'arrosage tout seul. C'est la magie de l'automatisation !">Partage & Bilan</button><span class="task-time">5 min</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Le Panneau d'Information qui apparaîtra sur la droite -->
+    <div id="info-panel" class="info-panel-hidden">
+        <!-- Le contenu sera inséré ici par JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoPanel = document.getElementById('info-panel');
+            const taskButtons = document.querySelectorAll('.task-button');
+
+            taskButtons.forEach(button => {
+                // Quand la souris entre sur le bouton
+                button.addEventListener('mouseover', () => {
+                    const description = button.dataset.description;
+                    if (description) {
+                        infoPanel.innerHTML = `<h4>💡 Détail de la tâche</h4><p>${description}</p>`;
+                        infoPanel.classList.remove('info-panel-hidden');
+                        infoPanel.classList.add('info-panel-visible');
+                    }
+                });
+
+                // Quand la souris quitte le bouton
+                button.addEventListener('mouseout', () => {
+                    infoPanel.classList.remove('info-panel-visible');
+                    infoPanel.classList.add('info-panel-hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

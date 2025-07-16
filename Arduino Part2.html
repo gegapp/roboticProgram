@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Arduino - Partie 2 : Systèmes & Connectivité</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg-color: #ffffff;
+            --text-color: #495057;
+            --border-color: #e9ecef;
+            --main-title-color: #6f42c1; /* Thème Violet pour la partie 2 */
+            --main-subtitle-color: #fd7e14; /* Orange */
+            --project-title-color: #007bff; /* Bleu */
+            --accent-orange: #fd7e14;
+            --accent-yellow: #ffc107;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .main-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--main-title-color);
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .main-header p {
+            font-size: 1.25rem;
+            color: var(--main-subtitle-color);
+            margin-top: 10px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg-color);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #f1f3f5;
+        }
+
+        .project-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--project-title-color);
+            margin: 0;
+        }
+
+        .section-box {
+            margin-top: 25px;
+        }
+
+        .section-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: #343a40;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .section-box .icon {
+            font-size: 1.5rem;
+        }
+
+        .objective p {
+            background-color: #f3e5f5; /* Fond violet très clair */
+            border-left: 4px solid var(--main-title-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        .components ul {
+            list-style: none;
+            padding: 15px;
+            background-color: #fff8e1; /* Fond orange très clair */
+            border-left: 4px solid var(--main-subtitle-color);
+            border-radius: 8px;
+        }
+
+        .components li {
+            margin-bottom: 5px;
+        }
+        
+        .exercises ol {
+            list-style: none;
+            padding: 0;
+            counter-reset: exercise-counter;
+        }
+
+        .exercises li {
+            counter-increment: exercise-counter;
+            margin-bottom: 12px;
+            padding: 10px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .exercises li::before {
+            content: counter(exercise-counter);
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: var(--project-title-color);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header class="main-header">
+            <h1>Programme Arduino</h1>
+            <p>Partie 2 : Systèmes Intégrés & Connectivité</p>
+        </header>
+
+        <!-- Projet 1 (original 13) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">1</div>
+                <h3 class="project-title">Corbeille Intelligente</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Combiner le capteur à ultrasons et le servo-moteur pour créer une corbeille qui s'ouvre toute seule.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, Capteur Ultrason, Servo-moteur, LCD I2C, LEDs (rouge, verte), Résistances, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Dessiner le schéma complet du système</li>
+                    <li>Installer le capteur sur le couvercle et le servo pour le soulever</li>
+                    <li>Programmer la détection d'une main approchant</li>
+                    <li>Contrôler le servo pour l'ouverture et la fermeture automatique</li>
+                    <li>Afficher l'état de la corbeille sur LCD ("Ouverte", "Fermée")</li>
+                    <li>Contrôler les LEDs en fonction de l'état de la corbeille</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Projet 2 (original 14) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">2</div>
+                <h3 class="project-title">Système de Sécurité</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Créer un système d'alarme simple avec détection de mouvement par ultrason et alerte sonore.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, Capteur Ultrason, Buzzer, LCD I2C, LEDs (rouge, verte), Résistances, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Tester le buzzer pour générer différents sons</li>
+                    <li>Programmer la détection de mouvement (intrusion dans une zone définie)</li>
+                    <li>Créer une alarme sonore qui se déclenche lors de la détection</li>
+                    <li>Afficher l'état du système sur LCD ("Sécurisé", "ALERTE !")</li>
+                    <li>Défi : Créer différents modes (ex: mode silencieux avec alerte visuelle uniquement)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- ... Le reste des projets de la partie 2 ... -->
+        <!-- Projet 3 (original 15) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">3</div>
+                <h3 class="project-title">Station Météo Simple</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Mesurer la température et l'humidité de l'air ambiant avec un capteur DHT11 et afficher les données sur un LCD.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, Capteur DHT11, LCD I2C, Breadboard, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Installer la bibliothèque requise pour le capteur DHT</li>
+                    <li>Lire les données de température et d'humidité du capteur</li>
+                    <li>Afficher la température et l'humidité sur l'écran LCD</li>
+                    <li>Ajouter des symboles personnalisés pour les degrés (°C) et le pourcentage (%)</li>
+                    <li>Créer une alerte (LED qui clignote) si la température dépasse un seuil</li>
+                    <li>Défi : Enregistrer et afficher les valeurs maximales/minimales mesurées</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Projet 4 (original 16) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">4</div>
+                <h3 class="project-title">Lampe Automatique (LDR)</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Créer une lampe intelligente qui s'allume automatiquement quand il fait sombre, en utilisant une photorésistance (LDR).</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, LDR (photorésistance), LED, 2x Résistances, Breadboard, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Comprendre le fonctionnement d'une LDR (sa résistance change avec la lumière)</li>
+                    <li>Mesurer et afficher les valeurs de luminosité sur le Moniteur Série</li>
+                    <li>Calibrer le seuil de détection (la valeur qui sépare "jour" et "nuit")</li>
+                    <li>Programmer l'allumage automatique de la LED sous le seuil</li>
+                    <li>Défi : Créer différents niveaux de luminosité (LED plus ou moins intense avec PWM)</li>
+                    <li>Intégrer un mode économie d'énergie (la lampe s'éteint après un certain temps)</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Projet 5 (original 17 & 18) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">5</div>
+                <h3 class="project-title">Station Météo Complète</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Créer une station météo complète combinant plusieurs capteurs (température, humidité, lumière) et une interface utilisateur sur LCD.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, DHT11, LDR, LCD I2C, LEDs, Breadboard, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Organiser les branchements de tous les composants</li>
+                    <li>Lire tous les capteurs simultanément dans la boucle principale</li>
+                    <li>Créer une interface utilisateur sur LCD qui affiche toutes les données</li>
+                    <li>Programmer des alertes météo (ex: LED rouge si trop chaud, bleue si trop froid)</li>
+                    <li>Implémenter la détection jour/nuit avec la LDR pour allumer le rétroéclairage du LCD</li>
+                    <li>Défi : Envoyer toutes les données via le port Série dans un format structuré (ex: "T:25;H:60;L:800")</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Projet 6 (original 19) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">6</div>
+                <h3 class="project-title">Robot Éviteur d'Obstacles</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Construire et programmer la base d'un robot mobile capable de se déplacer et d'éviter les obstacles de manière autonome.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Châssis Robot, Arduino, Capteur Ultrason, Driver Moteur (L298N), 2x Moteurs DC, Roues, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Comprendre le rôle du driver moteur pour contrôler les moteurs</li>
+                    <li>Programmer les mouvements de base (avancer, reculer, tourner à droite, tourner à gauche)</li>
+                    <li>Intégrer le capteur ultrason et lire la distance devant le robot</li>
+                    <li>Programmer la logique : si un obstacle est détecté, le robot s'arrête</li>
+                    <li>Améliorer la logique : si un obstacle est détecté, le robot recule, tourne, puis continue</li>
+                    <li>Défi : Monter le capteur sur un servo pour que le robot "regarde" à droite et à gauche avant de décider où aller</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Projet 7 (original 20) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">7</div>
+                <h3 class="project-title">Robot Suiveur de Ligne</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Construire un robot capable de suivre une ligne noire sur un fond blanc en utilisant des capteurs infrarouges (IR).</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Châssis Robot, Arduino, 2x Capteurs IR, Driver Moteur, Moteurs, Roues, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Comprendre le principe de détection de ligne (le noir absorbe la lumière, le blanc la réfléchit)</li>
+                    <li>Monter les deux capteurs IR sous l'avant du robot</li>
+                    <li>Calibrer les capteurs : afficher leurs valeurs quand ils sont sur le blanc et sur le noir</li>
+                    <li>Programmer la logique de base : si capteur droit voit noir, tourner à droite; si gauche voit noir, tourner à gauche</li>
+                    <li>Implémenter la logique complète pour un suivi fluide</li>
+                    <li>Défi : Ajouter un troisième capteur au milieu pour détecter les intersections</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Projet 8 (original 21) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">8</div>
+                <h3 class="project-title">Système d'Arrosage Automatique</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Créer un système d'arrosage intelligent qui active une pompe à eau en fonction de l'humidité du sol.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, Capteur d'humidité du sol, Pompe à eau 5V, Module relais 5V, LCD I2C, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Tester le capteur d'humidité et afficher sa valeur sur le LCD</li>
+                    <li>Comprendre le rôle du module relais (un interrupteur contrôlé par l'Arduino)</li>
+                    <li>Calibrer les seuils d'arrosage (valeur "sèche" et valeur "humide")</li>
+                    <li>Programmer le contrôle du relais pour activer/désactiver la pompe</li>
+                    <li>Créer le système complet : si sol sec, activer la pompe pendant 5 secondes</li>
+                    <li>Défi : Implémenter un mode manuel/automatique contrôlé par un bouton</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Projet 9 (original 22) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">9</div>
+                <h3 class="project-title">Système de Tri Automatique</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Créer un système de convoyeur simple capable de trier des objets selon leur taille (hauteur).</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, Capteur Ultrason, 2x Servo-moteurs, Capteur IR, LCD I2C, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Construire le mécanisme : un servo pour pousser les objets, un pour dévier</li>
+                    <li>Programmer le capteur IR pour détecter la présence d'un objet</li>
+                    <li>Quand un objet est détecté, utiliser le capteur ultrason pour mesurer sa hauteur</li>
+                    <li>Créer la logique de tri : si grand, le servo déviateur s'active; si petit, il ne fait rien</li>
+                    <li>Ajouter un compteur par catégorie sur le LCD</li>
+                    <li>Défi : Utiliser un capteur de couleur pour trier par couleur au lieu de la taille</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Projet 10 (original 23) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">10</div>
+                <h3 class="project-title">Communication Bluetooth</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Contrôler un système de LEDs à distance depuis un ordinateur ou un smartphone via Bluetooth.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, Module Bluetooth (HC-05/06), LEDs (rouge, verte, orange), Résistances, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Configurer le module Bluetooth (connexion à l'Arduino)</li>
+                    <li>Établir la communication série entre le module et un smartphone/PC</li>
+                    <li>Créer un protocole simple (ex: envoyer 'r' pour allumer la LED rouge)</li>
+                    <li>Contrôler les LEDs individuellement en envoyant des commandes</li>
+                    <li>Défi : Contrôler l'intensité de la LED en envoyant une valeur (ex: 'i150')</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Projet 11 (original 24) -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="project-number">11</div>
+                <h3 class="project-title">Smart Home Complète</h3>
+            </div>
+            <div class="section-box objective">
+                <h4><span class="icon">🎯</span>Objectif</h4>
+                <p>Créer une maquette de maison intelligente complète avec contrôle automatisé et commande à distance via Bluetooth.</p>
+            </div>
+            <div class="section-box components">
+                <h4><span class="icon">⚙️</span>Composants Requis</h4>
+                <ul>
+                    <li>Arduino, DHT11, LDR, LED, Servo-moteur, LCD I2C, Module Bluetooth, Câbles</li>
+                </ul>
+            </div>
+            <div class="section-box exercises">
+                <h4><span class="icon">📋</span>Exercices</h4>
+                <ol>
+                    <li>Installer tous les capteurs pour simuler les "pièces" de la maison</li>
+                    <li>Programmer le contrôle automatique de température (ventilateur/chauffage simulé par LED)</li>
+                    <li>Créer un système d'éclairage automatique avec la LDR</li>
+                    <li>Implémenter un contrôle des "volets" avec le servo-moteur</li>
+                    <li>Programmer des scénarios (ex: "Mode Nuit" ferme les volets et baisse la lumière)</li>
+                    <li>Créer une interface de contrôle Bluetooth pour tout piloter manuellement</li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
